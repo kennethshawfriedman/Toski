@@ -1,27 +1,59 @@
 ////: Playground - noun: a place where people can play
 //
-//import Foundation
-//
-//
-//@discardableResult
-//func shell(_ args: String...) -> Int32 {
-//	let task = Process()
-//	task.launchPath = "/usr/local/bin/mit-scheme"
-//	
-//	task.arguments = [ "mit-scheme", "--eval", "(+ 3 2)"]
-//	task.launch()
-//	
-//	print(task.processIdentifier)
-//	
-////	task.arguments = ["(+ 3 2)"]
-////	task.launch()
-//	
-//	task.waitUntilExit()
-//	
-//	//task.waitUntilExit()
-//	return task.terminationStatus
-//}
-//
+import Foundation
+
+
+@discardableResult
+func shell(_ args: String...) -> Int32 {
+	let task = Process()
+	task.launchPath = "/usr/local/bin/mit-scheme"
+	
+	task.arguments = [ "mit-scheme", "--eval", "(+ 3 2)"]
+	
+	let inPipe = Pipe()
+	let outPipe = Pipe()
+	
+	task.standardInput = inPipe
+	task.standardOutput = outPipe
+	
+	let outHandle = outPipe.fileHandleForReading
+	let inHandle = inPipe.fileHandleForWriting
+	
+	outHandle.readabilityHandler = { pipe in
+		if let line = String(data: pipe.availableData, encoding: String.Encoding.utf8) {
+			// Update your view with the new text here
+			print("New ouput: \(line)")
+			
+			let inString = "(+ 7 10)"
+			let inData = inString.data(using: String.Encoding.utf8)
+			if let iData = inData {
+				inHandle.write(iData)
+			} else {
+				print("oh no! KSF")
+			}
+			
+			
+		} else {
+			print("Error decoding data: \(pipe.availableData)")
+		}
+	}
+
+	
+	//task.launch()
+	
+	print(task.processIdentifier)
+	
+//	task.arguments = ["(+ 3 2)"]
+	//task.launch()
+	
+	task.waitUntilExit()
+	
+	//task.waitUntilExit()
+	return task.terminationStatus
+}
+
+shell("2")
+
 //func shell2(_ args: String...) -> Int32 {
 //	let task = Process()
 //	task.launchPath = "/usr/local/bin/python"
@@ -36,7 +68,6 @@
 //	
 //	task.waitUntilExit()
 //	
-//	//task.waitUntilExit()
 //	return task.terminationStatus
 //}
 //
@@ -131,24 +162,28 @@
 //	[task waitUntilExit];
 //	});
 
-import Foundation
-
-let so = Pipe()
-so.fileHandleForReading.waitForDataInBackgroundAndNotify()
-
-let task = Process()
-task.standardInput = Pipe()
-task.standardOutput = so
-task.launchPath = "/usr/local/bin/mit-scheme"
-
-func notifyOb() {
-	print("hello")
-}
+/////// another try with notification center but the notification never triggers
 
 
-NotificationCenter.default.addObserver(NSNotification.Name.NSFileHandleDataAvailable, selector: Selector("notifyOb") , name: NSNotification.Name.init("hopeful"), object: so.fileHandleForReading)
-
-
-task.launch()
-task.waitUntilExit()
+//import Foundation
+//
+//let so = Pipe()
+//so.fileHandleForReading.waitForDataInBackgroundAndNotify()
+//
+//let task = Process()
+//task.standardInput = Pipe()
+//task.standardOutput = so
+//task.launchPath = "/usr/local/bin/mit-scheme"
+//task.arguments = ["mit-scheme", "--eval", "(+ 2 3)"]
+//
+//func notifyOb() {
+//	print("hello")
+//}
+//
+//
+//NotificationCenter.default.addObserver(NSNotification.Name.NSFileHandleDataAvailable, selector: Selector(("notifyOb")) , name: NSNotification.Name.init("hopeful"), object: so.fileHandleForReading)
+//
+//
+//task.launch()
+//task.waitUntilExit()
 

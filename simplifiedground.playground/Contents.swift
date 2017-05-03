@@ -8,7 +8,7 @@ func shell(_ args: String...) -> Int32 {
 	let task = Process()
 	task.launchPath = "/usr/local/bin/mit-scheme"
 	
-	task.arguments = [ "mit-scheme", "--eval", "(+ 3 2)"]
+	//no part of the task is needed; you just start the repl by launching mit-scheme from the launch path. The below line is simply not needed
 	
 	let inPipe = Pipe()
 	let outPipe = Pipe()
@@ -24,7 +24,8 @@ func shell(_ args: String...) -> Int32 {
 	outHandle.readabilityHandler = { pipe in
 		if let line = String(data: pipe.availableData, encoding: String.Encoding.utf8) {
 			// Update your view with the new text here
-			print(line)
+//			print(line)
+			print(line, terminator: "")
 			
 			if (firstRound) {
 				firstRound = false

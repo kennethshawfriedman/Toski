@@ -686,14 +686,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="evX-aJ-sr7">
+                            <scrollView wantsLayer="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i7A-dN-7m3">
                                 <rect key="frame" x="20" y="20" width="440" height="230"/>
-                                <clipView key="contentView" id="fcL-Ek-pUg">
+                                <clipView key="contentView" id="3lk-Qd-DqB">
                                     <rect key="frame" x="1" y="1" width="438" height="228"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <textView importsGraphics="NO" usesFontPanel="YES" findStyle="panel" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" smartInsertDelete="YES" id="Gxq-t1-kca">
-                                            <rect key="frame" x="0.0" y="0.0" width="438" height="228"/>
+                                        <textView importsGraphics="NO" usesFontPanel="YES" findStyle="panel" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" smartInsertDelete="YES" id="2ZQ-j0-c0d">
+                                            <rect key="frame" x="0.0" y="-0.5" width="438" height="228"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <size key="minSize" width="438" height="228"/>
@@ -703,26 +703,26 @@
                                     </subviews>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </clipView>
-                                <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="6iI-V9-j8W">
+                                <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="jqv-hi-8po">
                                     <rect key="frame" x="-100" y="-100" width="87" height="18"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
-                                <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="Ooi-B5-Fdg">
+                                <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="1lA-lQ-tTS">
                                     <rect key="frame" x="423" y="1" width="16" height="228"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
                         </subviews>
                         <constraints>
-                            <constraint firstAttribute="bottom" secondItem="evX-aJ-sr7" secondAttribute="bottom" constant="20" id="Ek7-hr-MU7"/>
-                            <constraint firstItem="evX-aJ-sr7" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="20" id="GtE-b6-9uj"/>
-                            <constraint firstItem="evX-aJ-sr7" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="20" id="d6f-aK-96D"/>
-                            <constraint firstAttribute="trailing" secondItem="evX-aJ-sr7" secondAttribute="trailing" constant="20" id="pvE-NU-Rby"/>
+                            <constraint firstItem="i7A-dN-7m3" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="20" id="DID-gf-wyp"/>
+                            <constraint firstAttribute="bottom" secondItem="i7A-dN-7m3" secondAttribute="bottom" constant="20" id="GhX-BK-BqS"/>
+                            <constraint firstItem="i7A-dN-7m3" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="20" id="N0F-1M-KCW"/>
+                            <constraint firstAttribute="trailing" secondItem="i7A-dN-7m3" secondAttribute="trailing" constant="20" id="NVw-a0-re8"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="cf" destination="Gxq-t1-kca" id="yuO-gQ-lk4"/>
-                        <outlet property="scrollView" destination="evX-aJ-sr7" id="OrU-Gj-bb4"/>
+                        <outlet property="cf" destination="2ZQ-j0-c0d" id="gQG-0F-Pwn"/>
+                        <outlet property="scrollView" destination="i7A-dN-7m3" id="FlH-GE-V2b"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>

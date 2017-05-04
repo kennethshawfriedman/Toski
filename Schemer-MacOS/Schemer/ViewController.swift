@@ -50,6 +50,7 @@ class ViewController: NSViewController {
 		let outHandle = pipeOut.fileHandleForReading
 		
 		outHandle.readabilityHandler = { pipe in
+			//this doesn't help debug, not sure why: //print(String(data: pipe.readDataToEndOfFile(), encoding: String.Encoding.utf8) ?? "OR NOT!")
 			if let line = String(data: pipe.availableData, encoding: String.Encoding.utf8) {
 				print(line, terminator: "")
 				
@@ -58,17 +59,10 @@ class ViewController: NSViewController {
 					let fontAttribute = [NSFontAttributeName: NSFont(descriptor: NSFontDescriptor.init(name: "SourceCodePro-Regular", size: 16) , size: 16)!]
 					let atString = NSAttributedString(string: line, attributes: fontAttribute)
 					self.cf.textStorage?.append(atString)
+					
 				}
-				
-				
-//				let partialLines = line.components(separatedBy: "\n")
-//				guard partialLines.count > 0 else { return }
-//				for p in partialLines {
-//					if (p.characters.count > 0 && p[p.startIndex] == ";") {
-//						self.cf.textStorage?.append(NSAttributedString(string: p))
-//					}
-//				}
 			} else {
+				pipe.closeFile()
 				print("Error decoding data: \(pipe.availableData)")
 			}
 		}

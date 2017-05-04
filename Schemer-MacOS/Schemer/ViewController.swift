@@ -8,10 +8,9 @@
 
 import Cocoa
 
-class ViewController: NSViewController, NSTextViewDelegate, NSTextStorageDelegate {
-
-	let cfOLD = CodeField()
+class ViewController: NSViewController {
 	
+	//Class Variables
 	@IBOutlet var cf: CodeField!
 	@IBOutlet var scrollView: NSScrollView!
 	
@@ -34,43 +33,25 @@ class ViewController: NSViewController, NSTextViewDelegate, NSTextStorageDelegat
 			return $0
 		}
 		
-		//watch for flag changed [we don't need this now because the keydown can check what modifiers are working
-//		NSEvent.addLocalMonitorForEvents(matching: .flagsChanged) {
-//			self.flagsChanged(with: $0)
-//			return $0
-//		}
-		
 	}
 	
 	//called on every key-stroke of non-modifier keys
 	override func keyDown(with event: NSEvent) {
 		super.keyDown(with: event)
-		print("wwworking bro")
-		print("KEY PRESSED: \(event.keyCode)")
-		print("MODS: \(event.modifierFlags)")
+		
+		//If Command is Being Held, check for more things
+		if (event.modifierFlags.contains(.command)) {
+			
+			//Cmd+Enter
+			if (event.characters == "\r") {
+				print("LET'S GO!")
+			}
+		}
 	}
-	
-	//called on every modifier change, no longer need this since keyDown will be able to check for modifiers
-//	override func flagsChanged(with event: NSEvent) {
-//		
-//		print(event.modifierFlags)
-//		
-//		if (event.modifierFlags.contains([.command])) {
-//			//print(event.characters ?? "shit")
-////			if (event.characters == "\n") {
-////				print("command enter!")
-////			}
-//		}
-//	}
-	
 }
 
-class CodeField : NSTextView {
-	
-	
-}
-
-extension ViewController {
+//Extension Contains the Delegate Methods
+extension ViewController: NSTextViewDelegate, NSTextStorageDelegate {
 	
 	func textViewDidChangeSelection(_ notification: Notification) {
 		//Swift.print("at least it's something")
@@ -80,4 +61,9 @@ extension ViewController {
 		print(replacementStrings ?? "rut roh!")
 		return true
 	}
+}
+
+class CodeField : NSTextView {
+	
+	
 }

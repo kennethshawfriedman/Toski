@@ -10,10 +10,16 @@ import Cocoa
 
 class ViewController: NSViewController {
 
+	
+	@IBOutlet var scrollView: NSScrollView!
+	@IBOutlet var cf: CodeField!
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-
-		// Do any additional setup after loading the view.
+		
+		
+		
+		
 	}
 
 	override var representedObject: Any? {
@@ -25,3 +31,9 @@ class ViewController: NSViewController {
 
 }
 
+
+class CodeField : NSTextField {
+	
+	
+	
+}

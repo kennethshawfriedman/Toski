@@ -11,8 +11,15 @@ import Cocoa
 class ViewController: NSViewController {
 	
 	//Class Variables
+		//InterfaceBuilder Connected
 	@IBOutlet var cf: CodeField!
 	@IBOutlet var scrollView: NSScrollView!
+		//non-UI
+	let task = Process()
+	
+	let pipeIn = Pipe()
+	var handleIn = FileHandle()
+	let pipeOut = Pipe()
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -33,6 +40,44 @@ class ViewController: NSViewController {
 			return $0
 		}
 		
+		task.launchPath = "/usr/local/bin/mit-scheme"	//this should eventually be detirmined per-machine (which is working in one of the playgrounds)
+		
+		//task set up
+		task.standardOutput = pipeOut
+		task.standardInput = pipeIn
+		
+		handleIn = pipeIn.fileHandleForWriting
+		let outHandle = pipeOut.fileHandleForReading
+		
+		outHandle.readabilityHandler = { pipe in
+			if let line = String(data: pipe.availableData, encoding: String.Encoding.utf8) {
+				print(line, terminator: "")
+				
+				DispatchQueue.main.sync {
+					
+					let fontAttribute = [NSFontAttributeName: NSFont(descriptor: NSFontDescriptor.init(name: "SourceCodePro-Regular", size: 16) , size: 16)!]
+					let atString = NSAttributedString(string: line, attributes: fontAttribute)
+					self.cf.textStorage?.append(atString)
+				}
+				
+				
+//				let partialLines = line.components(separatedBy: "\n")
+//				guard partialLines.count > 0 else { return }
+//				for p in partialLines {
+//					if (p.characters.count > 0 && p[p.startIndex] == ";") {
+//						self.cf.textStorage?.append(NSAttributedString(string: p))
+//					}
+//				}
+			} else {
+				print("Error decoding data: \(pipe.availableData)")
+			}
+		}
+		
+		
+	}
+	
+	override func viewDidAppear() {
+		task.launch()
 	}
 	
 	//called on every key-stroke of non-modifier keys
@@ -44,10 +89,25 @@ class ViewController: NSViewController {
 			
 			//Cmd+Enter
 			if (event.characters == "\r") {
-				print("LET'S GO!")
+				executeCommand()
 			}
 		}
 	}
+	
+	
+	func executeCommand() {
+		
+		let nothingHereMessage = "(pp \"nothing here\")"
+		let excText:String = cf.textStorage?.string ?? nothingHereMessage
+		
+		let excData:Data = excText.data(using: String.Encoding.utf8)!
+		handleIn.write(excData)
+	}
+	
+	@IBAction func ExitNow(sender: AnyObject) {
+		NSApplication.shared().terminate(self)
+	}
+	
 }
 
 //Extension Contains the Delegate Methods
@@ -58,7 +118,7 @@ extension ViewController: NSTextViewDelegate, NSTextStorageDelegate {
 	}
 	
 	func textView(_ textView: NSTextView, shouldChangeTextInRanges affectedRanges: [NSValue], replacementStrings: [String]?) -> Bool {
-		print(replacementStrings ?? "rut roh!")
+//		print(replacementStrings ?? "rut roh!")
 		return true
 	}
 }

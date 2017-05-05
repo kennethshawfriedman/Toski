@@ -22,7 +22,5 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
 		print("Schemer Program Ended")
 	}
-
-
 }
 

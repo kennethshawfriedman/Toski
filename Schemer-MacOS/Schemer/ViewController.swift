@@ -123,10 +123,3 @@ class CodeField : NSTextView {
 	
 }
 
-class SchemeProcess: Process {
-	
-	//Keep Init Private, as it should only be used by the shared
-	private override init() {}
-	
-	static let shared = Process()
-}

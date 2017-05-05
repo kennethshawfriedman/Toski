@@ -15,7 +15,7 @@ class ViewController: NSViewController {
 	@IBOutlet var cf: CodeField!
 	@IBOutlet var scrollView: NSScrollView!
 		//non-UI
-	let task = Process()
+	let task = SchemeProcess.shared
 	
 	let pipeIn = Pipe()
 	var handleIn = FileHandle()
@@ -49,8 +49,8 @@ class ViewController: NSViewController {
 		handleIn = pipeIn.fileHandleForWriting
 		let outHandle = pipeOut.fileHandleForReading
 		
+		//this reads in new info from pipe when available
 		outHandle.readabilityHandler = { pipe in
-			//this doesn't help debug, not sure why: //print(String(data: pipe.readDataToEndOfFile(), encoding: String.Encoding.utf8) ?? "OR NOT!")
 			if let line = String(data: pipe.availableData, encoding: String.Encoding.utf8) {
 				print(line, terminator: "")
 				
@@ -85,6 +85,7 @@ class ViewController: NSViewController {
 			if (event.characters == "\r") {
 				executeCommand()
 			}
+		
 		}
 	}
 	
@@ -120,4 +121,12 @@ extension ViewController: NSTextViewDelegate, NSTextStorageDelegate {
 class CodeField : NSTextView {
 	
 	
+}
+
+class SchemeProcess: Process {
+	
+	//Keep Init Private, as it should only be used by the shared
+	private override init() {}
+	
+	static let shared = Process()
 }

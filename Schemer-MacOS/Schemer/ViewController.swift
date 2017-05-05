@@ -20,6 +20,8 @@ class ViewController: NSViewController {
 	var handleIn = FileHandle()
 	let pipeOut = Pipe()
 	
+	var warmingUp = true
+	
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -56,6 +58,10 @@ class ViewController: NSViewController {
 			if let line = String(data: pipe.availableData, encoding: String.Encoding.utf8) {
 				print(line, terminator: "")
 				
+				if self.warmingUp {
+					return
+				}
+				
 				DispatchQueue.main.sync {
 					
 					let fontAttribute = [NSFontAttributeName: NSFont(descriptor: NSFontDescriptor.init(name: "SourceCodePro-Regular", size: 16) , size: 16)!]
@@ -91,6 +97,8 @@ class ViewController: NSViewController {
 	}
 	
 	func executeCommand() {
+		
+		warmingUp = false
 		
 		let nothingHereMessage = "(pp \"nothing here\")"
 		let excText:String = cf.textStorage?.string ?? nothingHereMessage

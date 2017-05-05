@@ -23,5 +23,6 @@ class SchemeProcess: Process {
 	//Keep Init Private, as it should only be used by the shared
 	private override init() {}
 	
+	//This is the shared instance
 	static let shared = Process()
 }

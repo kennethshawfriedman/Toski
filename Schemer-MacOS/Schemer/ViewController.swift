@@ -16,19 +16,21 @@ class ViewController: NSViewController {
 	@IBOutlet var scrollView: NSScrollView!
 		//non-UI
 	let task = SchemeProcess.shared
-	
 	let pipeIn = Pipe()
 	var handleIn = FileHandle()
 	let pipeOut = Pipe()
 	
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		
 
 		//set up coding field #todo [these eventually should become part of the class CodeField class]
 		cf.font = NSFont(descriptor: NSFontDescriptor.init(name: "SourceCodePro-Regular", size: 16) , size: 16)
 		cf.isContinuousSpellCheckingEnabled = false
 		cf.isAutomaticSpellingCorrectionEnabled = false
 		cf.toggleContinuousSpellChecking(nil) //bizzare, but needed to prevent spell checking
+		cf.isAutomaticQuoteSubstitutionEnabled = false
 		
 		//Setting Delegates
 		cf.delegate = self
@@ -76,7 +78,6 @@ class ViewController: NSViewController {
 	
 	//called on every key-stroke of non-modifier keys
 	override func keyDown(with event: NSEvent) {
-		super.keyDown(with: event)
 		
 		//If Command is Being Held, check for more things
 		if (event.modifierFlags.contains(.command)) {
@@ -88,7 +89,6 @@ class ViewController: NSViewController {
 		
 		}
 	}
-	
 	
 	func executeCommand() {
 		
@@ -113,13 +113,15 @@ extension ViewController: NSTextViewDelegate, NSTextStorageDelegate {
 	}
 	
 	func textView(_ textView: NSTextView, shouldChangeTextInRanges affectedRanges: [NSValue], replacementStrings: [String]?) -> Bool {
-//		print(replacementStrings ?? "rut roh!")
 		return true
 	}
 }
 
 class CodeField : NSTextView {
 	
+	override func performKeyEquivalent(with event: NSEvent) -> Bool {
+		return true
+	}
 	
 }
 

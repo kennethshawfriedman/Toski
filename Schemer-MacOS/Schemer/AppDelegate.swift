@@ -15,6 +15,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		// Insert code here to initialize your application
 	}
 
+	@IBAction func executeCommand(_ sender: Any) {
+		print("executed -- this menu item isn't implemented yet. Please use the keyboard shortcut.")
+	}
+	
 	func applicationWillTerminate(_ aNotification: Notification) {
 		
 		//Kills the Scheme Process

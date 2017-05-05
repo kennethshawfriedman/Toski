@@ -56,18 +56,25 @@ class ViewController: NSViewController {
 		//this reads in new info from pipe when available
 		outHandle.readabilityHandler = { pipe in
 			if let line = String(data: pipe.availableData, encoding: String.Encoding.utf8) {
-				print(line, terminator: "")
+				print("💔\(line)🖕", terminator: "")
 				
+				var shouldPrintLine = true
+				
+				let newLine = line.replacingOccurrences(of: "1 ]=> ", with: "")
+				
+				//if the user hasn't executed a command yet, no need to print whatever warm up text is happening
 				if self.warmingUp {
-					return
+					shouldPrintLine = false
 				}
 				
-				DispatchQueue.main.sync {
-					
-					let fontAttribute = [NSFontAttributeName: NSFont(descriptor: NSFontDescriptor.init(name: "SourceCodePro-Regular", size: 16) , size: 16)!]
-					let atString = NSAttributedString(string: line, attributes: fontAttribute)
-					self.cf.textStorage?.append(atString)
-					
+				if shouldPrintLine {
+					DispatchQueue.main.sync {
+						
+						let fontAttribute = [NSFontAttributeName: NSFont(descriptor: NSFontDescriptor.init(name: "SourceCodePro-Regular", size: 16) , size: 16)!]
+						let atString = NSAttributedString(string: newLine, attributes: fontAttribute)
+						self.cf.textStorage?.append(atString)
+						
+					}
 				}
 			} else {
 				pipe.closeFile()

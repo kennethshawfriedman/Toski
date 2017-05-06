@@ -11,10 +11,10 @@ import Cocoa
 class ViewController: NSViewController {
 	
 	//Class Variables
-		//InterfaceBuilder Connected
+	////InterfaceBuilder Connected
 	@IBOutlet var cf: CodeField!
 	@IBOutlet var scrollView: NSScrollView!
-		//non-UI
+	//non-UI
 	let task = SchemeProcess.shared
 	let pipeIn = Pipe()
 	var handleIn = FileHandle()
@@ -25,14 +25,14 @@ class ViewController: NSViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		
 
-		//set up coding field #todo [these eventually should become part of the class CodeField class]
+		//cf.setupCodingField()
 		cf.font = NSFont(descriptor: NSFontDescriptor.init(name: "SourceCodePro-Regular", size: 16) , size: 16)
 		cf.isContinuousSpellCheckingEnabled = false
-		cf.isAutomaticSpellingCorrectionEnabled = false
-		cf.toggleContinuousSpellChecking(nil) //bizzare, but needed to prevent spell checking
 		cf.isAutomaticQuoteSubstitutionEnabled = false
+		cf.toggleContinuousSpellChecking(nil)
+		cf.isAutomaticQuoteSubstitutionEnabled = false
+		
 		
 		//Setting Delegates
 		cf.delegate = self
@@ -56,7 +56,7 @@ class ViewController: NSViewController {
 		//this reads in new info from pipe when available
 		outHandle.readabilityHandler = { pipe in
 			if let line = String(data: pipe.availableData, encoding: String.Encoding.utf8) {
-				print("💔\(line)🖕", terminator: "")
+				print("\(line)", terminator: "")
 				
 				var shouldPrintLine = true
 				
@@ -90,17 +90,27 @@ class ViewController: NSViewController {
 	//called on every key-stroke of non-modifier keys
 	override func keyDown(with event: NSEvent) {
 		
-		//If Command is Being Held, check for more things
-		if (event.modifierFlags.contains(.command)) {
-			
-			//Cmd+Enter
-			if (event.characters == "\r") {
-				executeCommand()
-			}
-		
+		//Check if the command key is pressed, if it is: send to other function to handle
+		let commandKey:Bool = event.modifierFlags.contains(.command)
+		if (commandKey) {
+			handleKeyPressWithCommand(from: event)
 		}
 	}
 	
+	func handleKeyPressWithCommand(from event:NSEvent) {
+		
+		let character:String = event.characters ?? ""
+		
+		switch character {
+			case "\r":	//this handles Cmd+enter
+				executeCommand()
+				break
+			default:
+				break
+		}
+	}
+	
+	//This function is called on Cmd+Enter: it executes a call to Scheme Communication
 	func executeCommand() {
 		warmingUp = false
 		let nothingHereMessage = "(pp \"nothing here\")"
@@ -127,6 +137,9 @@ extension ViewController: NSTextViewDelegate, NSTextStorageDelegate {
 }
 
 class CodeField : NSTextView {
+	
+	func setupCodingField() {
+	}
 	
 	override func performKeyEquivalent(with event: NSEvent) -> Bool {
 		return true

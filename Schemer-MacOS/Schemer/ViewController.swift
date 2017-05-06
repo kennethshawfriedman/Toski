@@ -44,7 +44,9 @@ class ViewController: NSViewController {
 			return $0
 		}
 		
-		task.launchPath = "/usr/local/bin/mit-scheme"	//this should eventually be detirmined per-machine (which is working in one of the playgrounds)
+		//task.launchPath = "/usr/local/bin/mit-scheme"	//this should eventually be detirmined per-machine (which is working in one of the playgrounds)
+		//The launchpath on my machine is "/usr/local/bin/mit-scheme", but if this is different on someone else's computer, i
+		task.launchPath = SchemeHelper.findSchemeLaunchPath()
 		
 		//task set up
 		task.standardOutput = pipeOut

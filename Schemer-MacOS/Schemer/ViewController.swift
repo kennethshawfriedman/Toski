@@ -81,8 +81,6 @@ class ViewController: NSViewController {
 				print("Error decoding data: \(pipe.availableData)")
 			}
 		}
-		
-		
 	}
 	
 	override func viewDidAppear() {
@@ -104,20 +102,16 @@ class ViewController: NSViewController {
 	}
 	
 	func executeCommand() {
-		
 		warmingUp = false
-		
 		let nothingHereMessage = "(pp \"nothing here\")"
-		let excText:String = cf.textStorage?.string ?? nothingHereMessage
-		
-		let excData:Data = excText.data(using: String.Encoding.utf8)!
-		handleIn.write(excData)
+		let currentText:String = cf.textStorage?.string ?? nothingHereMessage
+		let dataToSubmit = SchemeComm.parseExecutionCommand(allText: currentText)
+		handleIn.write(dataToSubmit)
 	}
 	
 	@IBAction func ExitNow(sender: AnyObject) {
 		NSApplication.shared().terminate(self)
 	}
-	
 }
 
 //Extension Contains the Delegate Methods

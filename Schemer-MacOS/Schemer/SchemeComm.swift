@@ -13,8 +13,12 @@ import Foundation
 //// All methods are static, so there is no need for instances
 class SchemeComm {
 	
-	
-	
+	static func parseExecutionCommand(allText:String) -> Data {
+		var result = ""
+		//Figure stuff out here
+		result.append(allText)
+		return result.data(using: .utf8)!
+	}
 }
 
 //SchemeProcess is a wrapper around the Process class, acting as a singleton

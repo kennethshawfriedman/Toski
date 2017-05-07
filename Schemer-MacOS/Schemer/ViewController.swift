@@ -25,7 +25,6 @@ class ViewController: NSViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		
 
 		cf.font = CodeField.standardFont()
 		cf.isContinuousSpellCheckingEnabled = false

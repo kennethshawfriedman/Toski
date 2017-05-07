@@ -15,12 +15,21 @@ class SchemeComm {
 	
 	static func parseExecutionCommand(codingField cf:CodeField) -> Data {
 		
-		let nothingHereMessage = "(pp \"nothing here\")"
+					//string to append code to
+		var result:String = ""
+					//error message: used if it can't find text in the codeField
+		let nothingHereMessage = "(pp \"Something Has Gone Wrong, the text can't be found.\")"
+					//get string from codeField
 		let currentText:String = cf.textStorage?.string ?? nothingHereMessage
+					//get curosor location:
+		let cursorLoc = SchemeComm.locationOfCursor(codingField: cf)
+					//grab all text before cursor location:
+		let codeBeforeCursor = currentText.substring(to: currentText.index(currentText.startIndex, offsetBy: cursorLoc))
+					//find an executable command within the possible code before the cursor
+		let executableCommand = SchemeComm.findExecutableCommandInText(incoming: codeBeforeCursor)
 		
-		var result = ""
-		//Figure stuff out here
-		result.append(currentText)
+		result.append(executableCommand)
+					//return as Data object to send to Scheme Process
 		return result.data(using: .utf8)!
 	}
 	
@@ -31,6 +40,36 @@ class SchemeComm {
 		let insertSpot = range.location + range.length
 		return insertSpot
 	}
+	
+	static func findExecutableCommandInText(incoming:String) -> String {
+		var chars = Array(incoming.characters)
+		chars.reverse()
+		var parenCount = 0 //keep track of parenthesis!
+		var indextoRevertBackTo = 0
+		print(chars)
+		for i in 0..<chars.count {
+			print("CURRENTLY CHECKING:\(chars[i])")
+			if (chars[i] == Character(")")) {
+				parenCount += 1
+			} else if (chars[i] == Character("(")) {
+				parenCount -= 1
+			}
+			if (parenCount == 0) {
+				indextoRevertBackTo = i+1
+				let beginSpot = incoming.index(incoming.endIndex, offsetBy: -indextoRevertBackTo)
+				let substringToReturn = incoming.substring(from: beginSpot)
+				print("THIS IS THE RESULT: \(substringToReturn) END")
+				return substringToReturn
+			} else if (parenCount < 0) {
+				print("Major Error: there is no command that will work!")
+				return ""
+			}
+		}
+		print("ERROR WITH: \(incoming)")
+		print("something happened in findexecutablecommandintext function!")
+		return ""
+	}
+	
 	
 }
 

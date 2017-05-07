@@ -44,11 +44,10 @@ class SchemeComm {
 	static func findExecutableCommandInText(incoming:String) -> String {
 		var chars = Array(incoming.characters)
 		chars.reverse()
-		var parenCount = 0 //keep track of parenthesis!
+		var parenCount = 0 //keep track of parentheses!
 		var indextoRevertBackTo = 0
 		print(chars)
 		for i in 0..<chars.count {
-			print("CURRENTLY CHECKING:\(chars[i])")
 			if (chars[i] == Character(")")) {
 				parenCount += 1
 			} else if (chars[i] == Character("(")) {
@@ -58,7 +57,6 @@ class SchemeComm {
 				indextoRevertBackTo = i+1
 				let beginSpot = incoming.index(incoming.endIndex, offsetBy: -indextoRevertBackTo)
 				let substringToReturn = incoming.substring(from: beginSpot)
-				print("THIS IS THE RESULT: \(substringToReturn) END")
 				return substringToReturn
 			} else if (parenCount < 0) {
 				print("Major Error: there is no command that will work!")

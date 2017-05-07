@@ -151,18 +151,21 @@ class CodeField : NSTextView {
 	
 	static func standardFont() -> NSFont {
 		
+		//tries to find source-code-pro (this *should* find the bundled font now)
 		let fontDescriptor = NSFontDescriptor(name: "SourceCodePro-Regular", size: 16)
 		let font = NSFont(descriptor: fontDescriptor, size: 16)
 		if let f = font {
 			return f
 		}
 		
+		//if it can't find it, it uses Monaco (which *should* be default installed)
 		let fontDescriptorBackup = NSFontDescriptor(name: "Monaco", size: 16)
 		let fontBackup = NSFont(descriptor: fontDescriptorBackup, size: 16)
 		if let fBackup = fontBackup {
 			return fBackup
 		}
 		
+		//if all else fails, it returns the system font
 		return NSFont.systemFont(ofSize: 16)
 	}
 	

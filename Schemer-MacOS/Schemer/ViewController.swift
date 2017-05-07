@@ -60,6 +60,8 @@ class ViewController: NSViewController {
 			if let line = String(data: pipe.availableData, encoding: String.Encoding.utf8) {
 				print("\(line)", terminator: "")
 				
+				//if no more changes happen to the checking to see if it's warmed up, it's not ncessary to have these double booleans,
+				//// but there might be a case where more checking needs to be done. In which case, it can stay for now
 				var shouldPrintLine = true
 				
 				let newLine = line.replacingOccurrences(of: "1 ]=> ", with: "")
@@ -69,22 +71,22 @@ class ViewController: NSViewController {
 					shouldPrintLine = false
 				}
 				
+				//if the line should be printed
 				if shouldPrintLine {
+					//adding text back to the view requires you to be on the main thread, but this readabilityHandler is async
 					DispatchQueue.main.sync {
-						
+						//add the proper font to the text, and append it to the codingfield (cf)
 						let fontAttribute = [NSFontAttributeName: NSFont(descriptor: NSFontDescriptor.init(name: "SourceCodePro-Regular", size: 16) , size: 16)!]
 						let atString = NSAttributedString(string: newLine, attributes: fontAttribute)
 						self.cf.textStorage?.append(atString)
 						
 					}
 				}
-			} else {
-				pipe.closeFile()
-				print("Error decoding data: \(pipe.availableData)")
 			}
 		}
 	}
 	
+	//When the
 	override func viewDidAppear() {
 		task.launch()
 	}

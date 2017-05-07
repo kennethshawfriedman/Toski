@@ -13,23 +13,24 @@ import Foundation
 //// All methods are static, so there is no need for instances
 class SchemeComm {
 	
+	//returns a Data object to be sent to Scheme.
+	//This Data object is actually a string of the scheme code to be sent
 	static func parseExecutionCommand(codingField cf:CodeField) -> Data {
 		
-					//string to append code to
+		//string to append code to
 		var result:String = ""
-					//error message: used if it can't find text in the codeField
+		//error message: used if it can't find text in the codeField
 		let nothingHereMessage = "(pp \"Something Has Gone Wrong, the text can't be found.\")"
-					//get string from codeField
+		//get string from codeField
 		let currentText:String = cf.textStorage?.string ?? nothingHereMessage
-					//get curosor location:
+		//get curosor location:
 		let cursorLoc = SchemeComm.locationOfCursor(codingField: cf)
-					//grab all text before cursor location:
+		//grab all text before cursor location:
 		let codeBeforeCursor = currentText.substring(to: currentText.index(currentText.startIndex, offsetBy: cursorLoc))
-					//find an executable command within the possible code before the cursor
+		//find an executable command within the possible code before the cursor
 		let executableCommand = SchemeComm.findExecutableCommandInText(incoming: codeBeforeCursor)
-		
 		result.append(executableCommand)
-					//return as Data object to send to Scheme Process
+		//return as Data object to send to Scheme Process
 		return result.data(using: .utf8)!
 	}
 	
@@ -44,9 +45,8 @@ class SchemeComm {
 	static func findExecutableCommandInText(incoming:String) -> String {
 		var chars = Array(incoming.characters)
 		chars.reverse()
-		var parenCount = 0 //keep track of parentheses!
-		var indextoRevertBackTo = 0
-		print(chars)
+		var parenCount = 0 //to keep track of parentheses!
+		var indextoRevertBackTo = 0 //to keep track of where in substring should split
 		for i in 0..<chars.count {
 			if (chars[i] == Character(")")) {
 				parenCount += 1
@@ -63,12 +63,8 @@ class SchemeComm {
 				return ""
 			}
 		}
-		print("ERROR WITH: \(incoming)")
-		print("something happened in findexecutablecommandintext function!")
-		return ""
+		return "(pp \"Sorry, I couldn't find any code to execute.\")"
 	}
-	
-	
 }
 
 //This is class is just extra, rarely-called functions to help SchemeComm (SchemeComm should be handling most of the logic)

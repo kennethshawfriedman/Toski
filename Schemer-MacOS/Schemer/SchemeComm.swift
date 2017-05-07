@@ -97,3 +97,13 @@ class SchemeProcess: Process {
 	//This is the shared instance
 	static let shared = Process()
 }
+
+
+//This extends the built in String to grab lines
+extension String {
+	var lines: [String] {
+		var result: [String] = []
+		enumerateLines { line, _ in result.append(line) }
+		return result
+	}
+}

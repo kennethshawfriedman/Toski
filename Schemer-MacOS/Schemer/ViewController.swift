@@ -13,6 +13,7 @@ class ViewController: NSViewController {
 	//Class Variables
 	////InterfaceBuilder Connected
 	@IBOutlet var cf: CodeField!
+	@IBOutlet var outField: CodeField!
 	@IBOutlet var scrollView: NSScrollView!
 	//non-UI
 	let task = SchemeProcess.shared
@@ -55,7 +56,7 @@ class ViewController: NSViewController {
 		handleIn = pipeIn.fileHandleForWriting
 		let outHandle = pipeOut.fileHandleForReading
 		
-		//this reads in new info from pipe when available
+		//The Results of a Scheme Execution come back from the REPL into this function:
 		outHandle.readabilityHandler = { pipe in
 			if let line = String(data: pipe.availableData, encoding: String.Encoding.utf8) {
 				print("\(line)", terminator: "")
@@ -126,6 +127,19 @@ class ViewController: NSViewController {
 	@IBAction func ExitNow(sender: AnyObject) {
 		NSApplication.shared().terminate(self)
 	}
+	
+	override func textStorageWillProcessEditing(_ notification: Notification) {
+		let textStorage = notification.object as! NSTextStorage
+		print(textStorage.string)
+		let lines = textStorage.string.lines
+		var formattedText = NSAttributedString()
+		for line in lines {
+			//first, find the first ';':
+			
+		}
+		
+	}
+	
 }
 
 //Extension Contains the Delegate Methods
@@ -141,10 +155,7 @@ extension ViewController: NSTextViewDelegate, NSTextStorageDelegate {
 }
 
 class CodeField : NSTextView {
-	
-	func setupCodingField() {
-	}
-	
+
 	override func performKeyEquivalent(with event: NSEvent) -> Bool {
 		return true
 	}

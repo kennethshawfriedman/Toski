@@ -13,12 +13,25 @@ import Foundation
 //// All methods are static, so there is no need for instances
 class SchemeComm {
 	
-	static func parseExecutionCommand(allText:String) -> Data {
+	static func parseExecutionCommand(codingField cf:CodeField) -> Data {
+		
+		let nothingHereMessage = "(pp \"nothing here\")"
+		let currentText:String = cf.textStorage?.string ?? nothingHereMessage
+		
 		var result = ""
 		//Figure stuff out here
-		result.append(allText)
+		result.append(currentText)
 		return result.data(using: .utf8)!
 	}
+	
+	//returns Int location of the cursor, where Int is the
+	/////number of characters in the codefield's text
+	static func locationOfCursor(codingField cf:CodeField) -> Int {
+		let range = cf.selectedRange()
+		let insertSpot = range.location + range.length
+		return insertSpot
+	}
+	
 }
 
 //This is class is just extra, rarely-called functions to help SchemeComm (SchemeComm should be handling most of the logic)
@@ -37,7 +50,7 @@ class SchemeHelper {
 		let data = pipe.fileHandleForReading.readDataToEndOfFile()
 		let output:String = String(data: data, encoding: String.Encoding.utf8) ?? "can't find mit-scheme location!"
 		let outTrimmed = output.trimmingCharacters(in: .whitespacesAndNewlines)
-		print(outTrimmed)
+		print("MIT-Scheme Location: \(outTrimmed)\n")
 		return outTrimmed
 	}
 }

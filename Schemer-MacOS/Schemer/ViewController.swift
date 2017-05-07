@@ -26,11 +26,12 @@ class ViewController: NSViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 
-		cf.font = NSFont(descriptor: NSFontDescriptor.init(name: "SourceCodePro-Regular", size: 16) , size: 16)
+		cf.font = CodeField.standardFont()
 		cf.isContinuousSpellCheckingEnabled = false
 		cf.isAutomaticQuoteSubstitutionEnabled = false
 		cf.toggleContinuousSpellChecking(nil)
 		cf.isAutomaticQuoteSubstitutionEnabled = false
+		cf.isEditable = false //don't edit until scheme launches
 		
 		
 		//Setting Delegates
@@ -76,9 +77,10 @@ class ViewController: NSViewController {
 					//adding text back to the view requires you to be on the main thread, but this readabilityHandler is async
 					DispatchQueue.main.sync {
 						//add the proper font to the text, and append it to the codingfield (cf)
-						let fontAttribute = [NSFontAttributeName: NSFont(descriptor: NSFontDescriptor.init(name: "SourceCodePro-Regular", size: 16) , size: 16)!]
+						let fontAttribute = [NSFontAttributeName: CodeField.standardFont()]
 						let atString = NSAttributedString(string: newLine, attributes: fontAttribute)
-						self.cf.insertText(atString)
+						let insertSpot = SchemeComm.locationOfCursor(codingField: self.cf)
+						self.cf.textStorage?.insert(atString, at: insertSpot)
 					}
 				}
 			}
@@ -88,6 +90,7 @@ class ViewController: NSViewController {
 	//When the viewcontroller appears, launch Scheme
 	override func viewDidAppear() {
 		task.launch()
+		cf.isEditable = true
 	}
 	
 	//called on every key-stroke of non-modifier keys
@@ -116,9 +119,7 @@ class ViewController: NSViewController {
 	//This function is called on Cmd+Enter: it executes a call to Scheme Communication
 	func executeCommand() {
 		warmingUp = false
-		let nothingHereMessage = "(pp \"nothing here\")"
-		let currentText:String = cf.textStorage?.string ?? nothingHereMessage
-		let dataToSubmit = SchemeComm.parseExecutionCommand(allText: currentText)
+		let dataToSubmit = SchemeComm.parseExecutionCommand(codingField: cf)
 		handleIn.write(dataToSubmit)
 	}
 	
@@ -146,6 +147,11 @@ class CodeField : NSTextView {
 	
 	override func performKeyEquivalent(with event: NSEvent) -> Bool {
 		return true
+	}
+	
+	static func standardFont() -> NSFont {
+		let font = NSFont(descriptor: NSFontDescriptor.init(name: "SourceCodePro-Regular", size: 16) , size: 16)!
+		return font
 	}
 	
 }

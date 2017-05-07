@@ -21,7 +21,7 @@ class ViewController: NSViewController {
 	let pipeOut = Pipe()
 	
 	var warmingUp = true
-	
+
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()

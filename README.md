@@ -23,7 +23,7 @@ Very simply, there are only two: the OS, and the language (dependencies consider
 
 ## How To Run
 
-Assuming you are on Mac running a modern version of the OS (10.10 or higher), and you have mit-scheme installed: simply launch the app as you would any other GUI.
+Assuming you are on Mac running a modern version of MacOS (10.10 or higher), and you have mit-scheme installed: simply launch the app as you would any other GUI.
 
 You can download the fully built, GUI app here: [Schemer-v0.1][0.1]
 

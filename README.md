@@ -1,7 +1,7 @@
 # Schemer
 A Prototype Debugging Tool for MIT Scheme
 
-![Preview][https://raw.githubusercontent.com/kennethshawfriedman/Schemer/master/Extras/schemer-preview.gif?token=AGDHI4DV7rXRWaP7wYAq9lwe1TQrQzhlks5ZF6AFwA%3D%3D]
+![Preview](https://raw.githubusercontent.com/kennethshawfriedman/Schemer/master/Extras/schemer-preview.gif?token=AGDHI4DV7rXRWaP7wYAq9lwe1TQrQzhlks5ZF6AFwA%3D%3D)
 
 ## This repo contains:
 

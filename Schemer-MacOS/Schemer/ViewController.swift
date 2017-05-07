@@ -121,6 +121,7 @@ class ViewController: NSViewController {
 		let currentText:String = cf.textStorage?.string ?? nothingHereMessage
 		let dataToSubmit = SchemeComm.parseExecutionCommand(allText: currentText)
 		handleIn.write(dataToSubmit)
+		cf.moveToEndOfDocument(nil)
 	}
 	
 	@IBAction func ExitNow(sender: AnyObject) {

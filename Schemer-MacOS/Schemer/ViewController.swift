@@ -26,7 +26,6 @@ class ViewController: NSViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 
-		//cf.setupCodingField()
 		cf.font = NSFont(descriptor: NSFontDescriptor.init(name: "SourceCodePro-Regular", size: 16) , size: 16)
 		cf.isContinuousSpellCheckingEnabled = false
 		cf.isAutomaticQuoteSubstitutionEnabled = false
@@ -64,6 +63,7 @@ class ViewController: NSViewController {
 				//// but there might be a case where more checking needs to be done. In which case, it can stay for now
 				var shouldPrintLine = true
 				
+				//No need to show the user the REPL input text: the input can be anywhere!
 				let newLine = line.replacingOccurrences(of: "1 ]=> ", with: "")
 				
 				//if the user hasn't executed a command yet, no need to print whatever warm up text is happening
@@ -78,15 +78,14 @@ class ViewController: NSViewController {
 						//add the proper font to the text, and append it to the codingfield (cf)
 						let fontAttribute = [NSFontAttributeName: NSFont(descriptor: NSFontDescriptor.init(name: "SourceCodePro-Regular", size: 16) , size: 16)!]
 						let atString = NSAttributedString(string: newLine, attributes: fontAttribute)
-						self.cf.textStorage?.append(atString)
-						
+						self.cf.insertText(atString)
 					}
 				}
 			}
 		}
 	}
 	
-	//When the
+	//When the viewcontroller appears, launch Scheme
 	override func viewDidAppear() {
 		task.launch()
 	}
@@ -121,7 +120,6 @@ class ViewController: NSViewController {
 		let currentText:String = cf.textStorage?.string ?? nothingHereMessage
 		let dataToSubmit = SchemeComm.parseExecutionCommand(allText: currentText)
 		handleIn.write(dataToSubmit)
-		cf.moveToEndOfDocument(nil)
 	}
 	
 	@IBAction func ExitNow(sender: AnyObject) {

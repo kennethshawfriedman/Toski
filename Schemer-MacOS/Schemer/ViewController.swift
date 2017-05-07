@@ -150,8 +150,20 @@ class CodeField : NSTextView {
 	}
 	
 	static func standardFont() -> NSFont {
-		let font = NSFont(descriptor: NSFontDescriptor.init(name: "SourceCodePro-Regular", size: 16) , size: 16)!
-		return font
+		
+		let fontDescriptor = NSFontDescriptor(name: "SourceCodePro-Regular", size: 16)
+		let font = NSFont(descriptor: fontDescriptor, size: 16)
+		if let f = font {
+			return f
+		}
+		
+		let fontDescriptorBackup = NSFontDescriptor(name: "Monaco", size: 16)
+		let fontBackup = NSFont(descriptor: fontDescriptorBackup, size: 16)
+		if let fBackup = fontBackup {
+			return fBackup
+		}
+		
+		return NSFont.systemFont(ofSize: 16)
 	}
 	
 }

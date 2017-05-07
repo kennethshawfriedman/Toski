@@ -25,9 +25,9 @@ Very simply, there are only two: the OS, and the language (dependencies consider
 
 Assuming you are on Mac running a modern version of MacOS (10.10 or higher), and you have mit-scheme installed: simply launch the app as you would any other GUI.
 
-You can download the fully built, GUI app here: [Schemer-v0.1][0.1]
+You can download the fully built, GUI app here: [Schemer.app][release]
 
-[0.1]: https://github.com/kennethshawfriedman/Schemer/releases/download/v0.1/Schemer-v0.1.app.zip
+[release]: https://github.com/kennethshawfriedman/Schemer/releases/latest
 
 ## Other
 

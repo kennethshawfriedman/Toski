@@ -20,6 +20,7 @@ class ViewController: NSViewController {
 	let pipeIn = Pipe()
 	var handleIn = FileHandle()
 	let pipeOut = Pipe()
+	var backspace = false
 	
 	var warmingUp = true
 
@@ -97,6 +98,9 @@ class ViewController: NSViewController {
 	//called on every key-stroke of non-modifier keys
 	override func keyDown(with event: NSEvent) {
 		
+		backspace = event.characters == "\u{7F}"
+		
+		//print("test2:\(event.characters)")
 		//Check if the command key is pressed, if it is: send to other function to handle
 		let commandKey:Bool = event.modifierFlags.contains(.command)
 		if (commandKey) {
@@ -129,12 +133,13 @@ class ViewController: NSViewController {
 	}
 	
 	override func textStorageDidProcessEditing(_ notification: Notification) {
+		//super.textStorageDidProcessEditing(notification)
+		guard !backspace else { return }
 		let textStorage = notification.object as! NSTextStorage
 		let allText = textStorage.string
 		let formattedText = Syntaxr.highlightAllText(allText)
 		textStorage.setAttributedString(formattedText)
 	}
-	
 }
 
 //Extension Contains the Delegate Methods

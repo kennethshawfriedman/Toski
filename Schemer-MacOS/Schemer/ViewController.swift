@@ -130,19 +130,9 @@ class ViewController: NSViewController {
 	
 	override func textStorageDidProcessEditing(_ notification: Notification) {
 		let textStorage = notification.object as! NSTextStorage
-		print(textStorage.string)
-		let lines = textStorage.string.components(separatedBy: "\n")
-		let allText = NSMutableAttributedString()
-		for i in 0..<lines.count {
-			let line = lines[i]
-			let formattedLine = Syntaxr.highlight(line:line)
-			allText.append(formattedLine)
-			if (i != lines.count-1) { //append new line char, unless it's the last line
-				let aNewLine = NSAttributedString(string: "\n", attributes: CodeField.standardAtrributes())
-				allText.append(aNewLine)
-			}
-		}
-		textStorage.setAttributedString(allText)
+		let allText = textStorage.string
+		let formattedText = Syntaxr.highlightAllText(allText)
+		textStorage.setAttributedString(formattedText)
 	}
 	
 }

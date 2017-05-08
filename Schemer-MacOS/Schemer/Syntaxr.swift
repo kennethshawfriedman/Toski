@@ -12,7 +12,7 @@ import Cocoa
 class Syntaxr {
 	
 	//for a given line (as a string), return a string formatter with proper highlighting
-	static func highlight(line:String) -> NSAttributedString {
+	static func highlightLine(_ line:String) -> NSAttributedString {
 		let result:NSMutableAttributedString = NSMutableAttributedString()
 		let semiColonLoc = line.range(of: ";")
 		if let scLoc = semiColonLoc {
@@ -30,4 +30,20 @@ class Syntaxr {
 		return result
 	}
 	
+	
+	//take all text from textview, seperate by line, and syntax highlight at the per line level
+	static func highlightAllText(_ text:String) -> NSAttributedString {
+		let lines = text.components(separatedBy: "\n")
+		let formattedText = NSMutableAttributedString()
+		for i in 0..<lines.count {
+			let line = lines[i]
+			let formattedLine = Syntaxr.highlightLine(line)
+			formattedText.append(formattedLine)
+			if (i != lines.count-1) { //append new line char, unless it's the last line
+				let aNewLine = NSAttributedString(string: "\n", attributes: CodeField.standardAtrributes())
+				formattedText.append(aNewLine)
+			}
+		}
+		return formattedText
+	}
 }

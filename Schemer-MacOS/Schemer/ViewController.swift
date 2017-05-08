@@ -13,7 +13,7 @@ class ViewController: NSViewController {
 	//Class Variables
 	////InterfaceBuilder Connected
 	@IBOutlet var cf: CodeField!
-	@IBOutlet var outField: CodeField!
+	//@IBOutlet var outField: CodeField!
 	@IBOutlet var scrollView: NSScrollView!
 	//non-UI
 	let task = SchemeProcess.shared

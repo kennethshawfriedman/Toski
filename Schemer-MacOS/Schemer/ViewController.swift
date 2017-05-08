@@ -62,17 +62,11 @@ class ViewController: NSViewController {
 			
 			print("\(line)", terminator: "")
 			
-			//if no more changes happen to the checking to see if it's warmed up, it's not ncessary to have these double booleans,
-			//// but there might be a case where more checking needs to be done. In which case, it can stay for now
-			var shouldPrintLine = true
-			
 			//No need to show the user the REPL input text: the input can be anywhere!
 			let newLine = line.replacingOccurrences(of: "1 ]=> ", with: "")
-			
-			//if the user hasn't executed a command yet, no need to print whatever warm up text is happening
-			shouldPrintLine = !self.warmingUp
+
 			//if you shouldn't prin the line, just return
-			guard shouldPrintLine else { return }
+			guard !self.warmingUp else { return }
 			
 			//adding text back to the view requires you to be on the main thread, but this readabilityHandler is async
 			DispatchQueue.main.sync {

@@ -128,7 +128,7 @@ class ViewController: NSViewController {
 		NSApplication.shared().terminate(self)
 	}
 	
-	override func textStorageWillProcessEditing(_ notification: Notification) {
+	override func textStorageDidProcessEditing(_ notification: Notification) {
 		let textStorage = notification.object as! NSTextStorage
 		print(textStorage.string)
 		//let lines = textStorage.string.lines

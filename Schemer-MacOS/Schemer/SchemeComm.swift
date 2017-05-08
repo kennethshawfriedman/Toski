@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 //SchemeComm is used for Scheme Communication.
 //// All methods are static, so there is no need for instances
 class SchemeComm {

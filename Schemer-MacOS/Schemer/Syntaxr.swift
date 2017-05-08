@@ -30,7 +30,6 @@ class Syntaxr {
 		return result
 	}
 	
-	
 	//take all text from textview, seperate by line, and syntax highlight at the per line level
 	static func highlightAllText(_ text:String) -> NSAttributedString {
 		let lines = text.components(separatedBy: "\n")

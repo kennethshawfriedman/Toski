@@ -11,22 +11,20 @@ import Cocoa
 class ViewController: NSViewController {
 	
 	//Class Variables
-	////InterfaceBuilder Connected
+	////UI Variables
 	@IBOutlet var cf: CodeField!
-	//@IBOutlet var outField: CodeField!
 	@IBOutlet var scrollView: NSScrollView!
-	//non-UI
-	let task = SchemeProcess.shared
-	let pipeIn = Pipe()
+	////Non-UI Variables
 	var handleIn = FileHandle()
-	let pipeOut = Pipe()
-	var backspace = false
-	
-	var warmingUp = true
-
+	let task = SchemeProcess.shared
+	var backspace = false //is most recent char the backspace?
+	var warmingUp = true  //is Scheme process still "warming up"?
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		
+		let pipeOut = Pipe()
+		let pipeIn = Pipe()
 
 		cf.font = CodeField.standardFont()
 		cf.isContinuousSpellCheckingEnabled = false
@@ -34,7 +32,6 @@ class ViewController: NSViewController {
 		cf.toggleContinuousSpellChecking(nil)
 		cf.isAutomaticQuoteSubstitutionEnabled = false
 		cf.isEditable = false //don't edit until scheme launches
-		
 		
 		//Setting Delegates
 		cf.delegate = self
@@ -73,14 +70,9 @@ class ViewController: NSViewController {
 			let newLine = line.replacingOccurrences(of: "1 ]=> ", with: "")
 			
 			//if the user hasn't executed a command yet, no need to print whatever warm up text is happening
-			if self.warmingUp {
-				shouldPrintLine = false
-			}
-			
+			shouldPrintLine = !self.warmingUp
 			//if you shouldn't prin the line, just return
-			guard shouldPrintLine else {
-				return
-			}
+			guard shouldPrintLine else { return }
 			
 			//adding text back to the view requires you to be on the main thread, but this readabilityHandler is async
 			DispatchQueue.main.sync {
@@ -164,25 +156,29 @@ class CodeField : NSTextView {
 	static func standardFont() -> NSFont {
 		
 		//tries to find source-code-pro (this *should* find the bundled font now)
-		let fontDescriptor = NSFontDescriptor(name: "SourceCodePro-Regular", size: 16)
-		let font = NSFont(descriptor: fontDescriptor, size: 16)
+		let fontDescriptor = NSFontDescriptor(name: "SourceCodePro-Regular", size: CodeField.stdFontSize())
+		let font = NSFont(descriptor: fontDescriptor, size: CodeField.stdFontSize())
 		if let f = font {
 			return f
 		}
 		
 		//if it can't find it, it uses Monaco (which *should* be default installed)
-		let fontDescriptorBackup = NSFontDescriptor(name: "Monaco", size: 16)
-		let fontBackup = NSFont(descriptor: fontDescriptorBackup, size: 16)
+		let fontDescriptorBackup = NSFontDescriptor(name: "Monaco", size: CodeField.stdFontSize())
+		let fontBackup = NSFont(descriptor: fontDescriptorBackup, size: CodeField.stdFontSize())
 		if let fBackup = fontBackup {
 			return fBackup
 		}
 		
 		//if all else fails, it returns the system font
-		return NSFont.systemFont(ofSize: 16)
+		return NSFont.systemFont(ofSize: CodeField.stdFontSize())
 	}
 	
 	static func standardAtrributes() -> [String : Any] {
 		return [NSFontAttributeName: CodeField.standardFont()]
+	}
+	
+	static func stdFontSize() -> CGFloat {
+		return 16
 	}
 	
 }

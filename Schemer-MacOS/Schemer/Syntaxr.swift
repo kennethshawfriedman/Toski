@@ -13,12 +13,23 @@ class Syntaxr {
 	
 	//for a given line (as a string), return a string formatter with proper highlighting
 	static func highlightLine(_ line:String) -> NSAttributedString {
+		
 		let result:NSMutableAttributedString = NSMutableAttributedString()
-		let semiColonLoc = line.range(of: ";")
-		if let scLoc = semiColonLoc {
-			let lowerBound = scLoc.lowerBound
-			let firstSubtring = line.substring(to: lowerBound)
-			let secondSubstring = line.substring(from: lowerBound)
+		var insideAQuote = false
+		var locOfSemi = line.characters.indices.endIndex
+		for i in line.characters.indices {
+			let char = line[i]
+			if (char == "\"") {
+				insideAQuote = !insideAQuote
+			} else if (char == ";" && !insideAQuote) {
+				locOfSemi = i
+				break
+			}
+		}
+		
+		if locOfSemi != line.characters.indices.endIndex {
+			let firstSubtring = line.substring(to: locOfSemi)
+			let secondSubstring = line.substring(from: locOfSemi)
 			let aFirst = NSAttributedString.init(string: firstSubtring, attributes: CodeField.standardAtrributes())
 			let aSecond = NSAttributedString.init(string: secondSubstring, attributes: [NSFontAttributeName: CodeField.standardFont(), NSForegroundColorAttributeName: NSColor.gray])
 			result.append(aFirst)

@@ -59,32 +59,36 @@ class ViewController: NSViewController {
 		
 		//The Results of a Scheme Execution come back from the REPL into this function:
 		outHandle.readabilityHandler = { pipe in
-			if let line = String(data: pipe.availableData, encoding: String.Encoding.utf8) {
-				print("\(line)", terminator: "")
-				
-				//if no more changes happen to the checking to see if it's warmed up, it's not ncessary to have these double booleans,
-				//// but there might be a case where more checking needs to be done. In which case, it can stay for now
-				var shouldPrintLine = true
-				
-				//No need to show the user the REPL input text: the input can be anywhere!
-				let newLine = line.replacingOccurrences(of: "1 ]=> ", with: "")
-				
-				//if the user hasn't executed a command yet, no need to print whatever warm up text is happening
-				if self.warmingUp {
-					shouldPrintLine = false
-				}
-				
-				//if the line should be printed
-				if shouldPrintLine {
-					//adding text back to the view requires you to be on the main thread, but this readabilityHandler is async
-					DispatchQueue.main.sync {
-						//add the proper font to the text, and append it to the codingfield (cf)
-						let fontAttribute = [NSFontAttributeName: CodeField.standardFont()]
-						let atString = NSAttributedString(string: newLine, attributes: fontAttribute)
-						let insertSpot = SchemeComm.locationOfCursor(codingField: self.cf)
-						self.cf.textStorage?.insert(atString, at: insertSpot)
-					}
-				}
+			
+			let inLine = String(data: pipe.availableData, encoding: .utf8)
+			guard let line = inLine else { return }
+			
+			print("\(line)", terminator: "")
+			
+			//if no more changes happen to the checking to see if it's warmed up, it's not ncessary to have these double booleans,
+			//// but there might be a case where more checking needs to be done. In which case, it can stay for now
+			var shouldPrintLine = true
+			
+			//No need to show the user the REPL input text: the input can be anywhere!
+			let newLine = line.replacingOccurrences(of: "1 ]=> ", with: "")
+			
+			//if the user hasn't executed a command yet, no need to print whatever warm up text is happening
+			if self.warmingUp {
+				shouldPrintLine = false
+			}
+			
+			//if you shouldn't prin the line, just return
+			guard shouldPrintLine else {
+				return
+			}
+			
+			//adding text back to the view requires you to be on the main thread, but this readabilityHandler is async
+			DispatchQueue.main.sync {
+				//add the proper font to the text, and append it to the codingfield (cf)
+				let fontAttribute = [NSFontAttributeName: CodeField.standardFont()]
+				let atString = NSAttributedString(string: newLine, attributes: fontAttribute)
+				let insertSpot = SchemeComm.locationOfCursor(codingField: self.cf)
+				self.cf.textStorage?.insert(atString, at: insertSpot)
 			}
 		}
 	}
@@ -98,9 +102,7 @@ class ViewController: NSViewController {
 	//called on every key-stroke of non-modifier keys
 	override func keyDown(with event: NSEvent) {
 		
-		backspace = event.characters == "\u{7F}"
-		
-		//print("test2:\(event.characters)")
+		backspace = event.characters == "\u{7F}" //backspace is true if it was the backspace key
 		//Check if the command key is pressed, if it is: send to other function to handle
 		let commandKey:Bool = event.modifierFlags.contains(.command)
 		if (commandKey) {
@@ -111,7 +113,6 @@ class ViewController: NSViewController {
 	func handleKeyPressWithCommand(from event:NSEvent) {
 		
 		let character:String = event.characters ?? ""
-		
 		switch character {
 			case "\r":	//this handles Cmd+enter
 				executeCommand()

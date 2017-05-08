@@ -14,31 +14,25 @@ class Syntaxr {
 	//for a given line (as a string), return a string formatter with proper highlighting
 	static func highlightLine(_ line:String) -> NSAttributedString {
 		
-		let result:NSMutableAttributedString = NSMutableAttributedString()
-		var insideAQuote = false
-		var locOfSemi = line.characters.indices.endIndex
-		for i in line.characters.indices {
+		var insideAQuote = false //are you inside a quote right now?
+		for i in line.characters.indices { //loop through each character
 			let char = line[i]
-			if (char == "\"") {
+			if (char == "\"") { //if it's a quote, flip the boolean
 				insideAQuote = !insideAQuote
 			} else if (char == ";" && !insideAQuote) {
-				locOfSemi = i
-				break
+				//we found the semicolon! Rest of line doesn't matter
+				let firstSubtring = line.substring(to: i)
+				let secondSubstring = line.substring(from: i)
+				let aFirst = NSAttributedString.init(string: firstSubtring, attributes: CodeField.standardAtrributes())
+				let aSecond = NSAttributedString.init(string: secondSubstring, attributes: [NSFontAttributeName: CodeField.standardFont(), NSForegroundColorAttributeName: NSColor.gray])
+				let result:NSMutableAttributedString = NSMutableAttributedString()
+				result.append(aFirst)
+				result.append(aSecond)
+				return result
 			}
 		}
-		
-		if locOfSemi != line.characters.indices.endIndex {
-			let firstSubtring = line.substring(to: locOfSemi)
-			let secondSubstring = line.substring(from: locOfSemi)
-			let aFirst = NSAttributedString.init(string: firstSubtring, attributes: CodeField.standardAtrributes())
-			let aSecond = NSAttributedString.init(string: secondSubstring, attributes: [NSFontAttributeName: CodeField.standardFont(), NSForegroundColorAttributeName: NSColor.gray])
-			result.append(aFirst)
-			result.append(aSecond)
-		} else {
-			let aLine = NSAttributedString(string: line, attributes: CodeField.standardAtrributes())
-			result.append(aLine)
-		}
-		return result
+		let aLine = NSAttributedString(string: line, attributes: CodeField.standardAtrributes())
+		return aLine
 	}
 	
 	//take all text from textview, seperate by line, and syntax highlight at the per line level

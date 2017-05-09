@@ -34,7 +34,6 @@ class ViewController: NSViewController {
 		cf.isEditable = false //don't edit until scheme launches
 		
 		
-		
 		outField.isEditable = false;
 		outField.font = CodeField.standardFont()
 		let tempStr = NSAttributedString(string: "output will eventually go here, optionally!", attributes: CodeField.stdAtrributes())
@@ -127,7 +126,6 @@ class ViewController: NSViewController {
 	}
 	
 	override func textStorageDidProcessEditing(_ notification: Notification) {
-		//super.textStorageDidProcessEditing(notification)
 		guard !backspace else { return }
 		let textStorage = notification.object as! NSTextStorage
 		let allText = textStorage.string
@@ -139,8 +137,22 @@ class ViewController: NSViewController {
 //Extension Contains the Delegate Methods
 extension ViewController: NSTextViewDelegate, NSTextStorageDelegate {
 	
+	//this is called on every selection change, which includes typing and moving cursor
 	func textViewDidChangeSelection(_ notification: Notification) {
-		//Swift.print("at least it's something")
+		
+		//NOTE FROM KSF: this is the beginning of the highlight to eval feature.
+		//however, the necessary features aren't implemented yet, so all it does is execute and print the procedures
+		//that you highlight. There's no checking or anything. Don't uncomment unless you want to play with just this feature
+		
+//		let sRange = cf.selectedRange()
+//		guard (sRange.length > 1) else {return}
+//		let maybeSelectedText = cf.textStorage?.string
+//		guard let selectedText = maybeSelectedText else { return }
+//		let selectedNSString = NSString(string: selectedText)
+//		let highlightedText = selectedNSString.substring(with: sRange)
+//		let maybeHighlightAsData = highlightedText.data(using: .utf8)
+//		guard let highlightData = maybeHighlightAsData else { return }
+//		handleIn.write(highlightData)
 	}
 	
 	func textView(_ textView: NSTextView, shouldChangeTextInRanges affectedRanges: [NSValue], replacementStrings: [String]?) -> Bool {
@@ -183,8 +195,3 @@ class CodeField : NSTextView {
 	}
 	
 }
-
-//class OutField : CodeField {
-//	
-//}
-

@@ -64,6 +64,11 @@ class SchemeComm {
 		}
 		return "(pp \"Sorry, I couldn't find any code to execute.\")"
 	}
+	
+	static func previewExecution(_ input:String) {
+		
+	}
+	
 }
 
 //This is class is just extra, rarely-called functions to help SchemeComm (SchemeComm should be handling most of the logic)

@@ -13,7 +13,7 @@ class ViewController: NSViewController {
 	//Class Variables
 	////UI Variables
 	@IBOutlet var cf: CodeField!
-	@IBOutlet var scrollView: NSScrollView!
+	//@IBOutlet var scrollView: NSScrollView!
 	////Non-UI Variables
 	var handleIn = FileHandle()
 	let task = SchemeProcess.shared
@@ -29,7 +29,7 @@ class ViewController: NSViewController {
 		cf.font = CodeField.standardFont()
 		cf.isContinuousSpellCheckingEnabled = false
 		cf.isAutomaticQuoteSubstitutionEnabled = false
-		cf.toggleContinuousSpellChecking(nil)
+		//cf.toggleContinuousSpellChecking(nil)
 		cf.isAutomaticQuoteSubstitutionEnabled = false
 		cf.isEditable = false //don't edit until scheme launches
 		

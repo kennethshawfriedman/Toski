@@ -23,7 +23,7 @@ class Syntaxr {
 				//we found the semicolon! Rest of line doesn't matter
 				let firstSubtring = line.substring(to: i)
 				let secondSubstring = line.substring(from: i)
-				let aFirst = NSAttributedString.init(string: firstSubtring, attributes: CodeField.standardAtrributes())
+				let aFirst = NSAttributedString.init(string: firstSubtring, attributes: CodeField.stdAtrributes())
 				let aSecond = NSAttributedString.init(string: secondSubstring, attributes: [NSFontAttributeName: CodeField.standardFont(), NSForegroundColorAttributeName: NSColor.gray])
 				let result:NSMutableAttributedString = NSMutableAttributedString()
 				result.append(aFirst)
@@ -31,7 +31,7 @@ class Syntaxr {
 				return result
 			}
 		}
-		let aLine = NSAttributedString(string: line, attributes: CodeField.standardAtrributes())
+		let aLine = NSAttributedString(string: line, attributes: CodeField.stdAtrributes())
 		return aLine
 	}
 	
@@ -44,7 +44,7 @@ class Syntaxr {
 			let formattedLine = Syntaxr.highlightLine(line)
 			formattedText.append(formattedLine)
 			if (i != lines.count-1) { //append new line char, unless it's the last line
-				let aNewLine = NSAttributedString(string: "\n", attributes: CodeField.standardAtrributes())
+				let aNewLine = NSAttributedString(string: "\n", attributes: CodeField.stdAtrributes())
 				formattedText.append(aNewLine)
 			}
 		}

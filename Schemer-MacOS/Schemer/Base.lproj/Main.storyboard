@@ -474,12 +474,6 @@ DQ
                                                 <action selector="toggleToolbarShown:" target="Ady-hI-5gd" id="BXY-wc-z0C"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Customize Toolbar…" id="1UK-8n-QPP">
-                                            <modifierMask key="keyEquivalentModifierMask"/>
-                                            <connections>
-                                                <action selector="runToolbarCustomizationPalette:" target="Ady-hI-5gd" id="pQI-g3-MTW"/>
-                                            </connections>
-                                        </menuItem>
                                         <menuItem isSeparatorItem="YES" id="hB3-LF-h0Y"/>
                                         <menuItem title="Show Sidebar" keyEquivalent="s" id="kIP-vf-haE">
                                             <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
@@ -542,17 +536,28 @@ DQ
                 <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="Schemer" customModuleProvider="target"/>
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="75" y="0.0"/>
+            <point key="canvasLocation" x="75" y="-48"/>
         </scene>
         <!--Window Controller-->
         <scene sceneID="R2V-B0-nI4">
             <objects>
                 <windowController id="B8D-0N-5wS" sceneMemberID="viewController">
                     <window key="window" title="Schemer" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
-                        <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+                        <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" unifiedTitleAndToolbar="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
                         <rect key="contentRect" x="196" y="240" width="480" height="270"/>
-                        <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
+                        <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1050"/>
+                        <toolbar key="toolbar" implicitIdentifier="5192A591-DC05-41B9-913F-150C5382DBBE" autosavesConfiguration="NO" displayMode="iconAndLabel" sizeMode="small" id="Fay-mA-qvG">
+                            <allowedToolbarItems>
+                                <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="o0U-rC-tR0"/>
+                                <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="fyl-Rr-0L1"/>
+                                <toolbarItem implicitItemIdentifier="ECAB5FC3-CCBC-4ECD-A44E-F6E3636E897A" label="Split View" paletteLabel="Split View" tag="-1" image="NSColumnViewTemplate" selectable="YES" id="Pp5-QF-rPD"/>
+                            </allowedToolbarItems>
+                            <defaultToolbarItems>
+                                <toolbarItem reference="fyl-Rr-0L1"/>
+                                <toolbarItem reference="Pp5-QF-rPD"/>
+                            </defaultToolbarItems>
+                        </toolbar>
                     </window>
                     <connections>
                         <segue destination="XfG-lQ-9wD" kind="relationship" relationship="window.shadowedContentViewController" id="cq2-FE-JQM"/>
@@ -560,34 +565,34 @@ DQ
                 </windowController>
                 <customObject id="Oky-zY-oP4" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="75" y="250"/>
+            <point key="canvasLocation" x="75" y="286"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="hIz-AP-VOD">
             <objects>
                 <viewController id="XfG-lQ-9wD" customClass="ViewController" customModule="Schemer" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" wantsLayer="YES" id="m2S-Jp-Qdl">
-                        <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                        <rect key="frame" x="0.0" y="0.0" width="657" height="406"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <splitView arrangesAllSubviews="NO" dividerStyle="paneSplitter" vertical="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BzG-eY-nhd">
-                                <rect key="frame" x="20" y="20" width="440" height="230"/>
+                                <rect key="frame" x="20" y="20" width="617" height="366"/>
                                 <subviews>
                                     <customView id="Eyf-lJ-RvT">
-                                        <rect key="frame" x="0.0" y="0.0" width="216.5" height="230"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="305.5" height="366"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <subviews>
                                             <scrollView wantsLayer="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zSX-Df-FuB">
-                                                <rect key="frame" x="0.0" y="0.0" width="216" height="230"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="307" height="366"/>
                                                 <clipView key="contentView" id="E5b-Zd-rGY">
-                                                    <rect key="frame" x="1" y="1" width="214" height="228"/>
+                                                    <rect key="frame" x="1" y="1" width="305" height="364"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <textView importsGraphics="NO" usesFontPanel="YES" findStyle="panel" allowsUndo="YES" usesRuler="YES" allowsNonContiguousLayout="YES" id="fOw-0p-Xuc">
-                                                            <rect key="frame" x="0.0" y="-0.5" width="214" height="228"/>
+                                                            <rect key="frame" x="0.0" y="-0.5" width="305" height="364"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                            <size key="minSize" width="214" height="228"/>
+                                                            <size key="minSize" width="305" height="364"/>
                                                             <size key="maxSize" width="463" height="10000000"/>
                                                             <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                         </textView>
@@ -599,7 +604,7 @@ DQ
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </scroller>
                                                 <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="NyW-G5-1nx">
-                                                    <rect key="frame" x="199" y="1" width="16" height="228"/>
+                                                    <rect key="frame" x="290" y="1" width="16" height="364"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </scroller>
                                             </scrollView>
@@ -611,9 +616,43 @@ DQ
                                             <constraint firstAttribute="bottom" secondItem="zSX-Df-FuB" secondAttribute="bottom" id="yk6-qI-Nn0"/>
                                         </constraints>
                                     </customView>
-                                    <customView fixedFrame="YES" id="s0q-wY-ZvW">
-                                        <rect key="frame" x="226.5" y="0.0" width="213.5" height="230"/>
+                                    <customView id="s0q-wY-ZvW">
+                                        <rect key="frame" x="315.5" y="0.0" width="301.5" height="366"/>
                                         <autoresizingMask key="autoresizingMask"/>
+                                        <subviews>
+                                            <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i4e-TK-xrG">
+                                                <rect key="frame" x="0.0" y="0.0" width="301" height="366"/>
+                                                <clipView key="contentView" id="8WR-XV-0vN">
+                                                    <rect key="frame" x="1" y="1" width="299" height="364"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                    <subviews>
+                                                        <textView importsGraphics="NO" usesFontPanel="YES" findStyle="panel" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" smartInsertDelete="YES" id="ivB-fT-MTs">
+                                                            <rect key="frame" x="0.0" y="0.0" width="299" height="364"/>
+                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                            <color key="backgroundColor" red="0.93333333333333335" green="0.94901960784313721" blue="0.98431372549019602" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <size key="minSize" width="299" height="364"/>
+                                                            <size key="maxSize" width="463" height="10000000"/>
+                                                            <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                        </textView>
+                                                    </subviews>
+                                                    <color key="backgroundColor" red="0.93333333333333335" green="0.94901960784313721" blue="0.98431372549019602" alpha="1" colorSpace="calibratedRGB"/>
+                                                </clipView>
+                                                <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="cRl-lQ-Gw4">
+                                                    <rect key="frame" x="-100" y="-100" width="87" height="18"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                </scroller>
+                                                <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="7Ns-LB-HAB">
+                                                    <rect key="frame" x="284" y="1" width="16" height="364"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                </scroller>
+                                            </scrollView>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="i4e-TK-xrG" secondAttribute="trailing" id="CMG-yQ-N1I"/>
+                                            <constraint firstItem="i4e-TK-xrG" firstAttribute="top" secondItem="s0q-wY-ZvW" secondAttribute="top" id="SoP-LP-Z7X"/>
+                                            <constraint firstAttribute="bottom" secondItem="i4e-TK-xrG" secondAttribute="bottom" id="nLK-7o-q8K"/>
+                                            <constraint firstItem="i4e-TK-xrG" firstAttribute="leading" secondItem="s0q-wY-ZvW" secondAttribute="leading" id="sj5-hM-0Kd"/>
+                                        </constraints>
                                     </customView>
                                 </subviews>
                                 <holdingPriorities>
@@ -631,11 +670,15 @@ DQ
                     </view>
                     <connections>
                         <outlet property="cf" destination="fOw-0p-Xuc" id="oqC-et-I4a"/>
+                        <outlet property="outField" destination="ivB-fT-MTs" id="uPc-IZ-0oH"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="75" y="655"/>
+            <point key="canvasLocation" x="76" y="859"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="NSColumnViewTemplate" width="16" height="10"/>
+    </resources>
 </document>

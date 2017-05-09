@@ -13,7 +13,8 @@ class ViewController: NSViewController {
 	//Class Variables
 	////UI Variables
 	@IBOutlet var cf: CodeField!
-	//@IBOutlet var scrollView: NSScrollView!
+	@IBOutlet var outField: NSTextView!
+	
 	////Non-UI Variables
 	var handleIn = FileHandle()
 	let task = SchemeProcess.shared
@@ -29,9 +30,15 @@ class ViewController: NSViewController {
 		cf.font = CodeField.standardFont()
 		cf.isContinuousSpellCheckingEnabled = false
 		cf.isAutomaticQuoteSubstitutionEnabled = false
-		//cf.toggleContinuousSpellChecking(nil)
 		cf.isAutomaticQuoteSubstitutionEnabled = false
 		cf.isEditable = false //don't edit until scheme launches
+		
+		
+		
+		outField.isEditable = false;
+		outField.font = CodeField.standardFont()
+		let tempStr = NSAttributedString(string: "output will eventually go here, optionally!", attributes: CodeField.stdAtrributes())
+		outField.textStorage?.setAttributedString(tempStr)
 		
 		//Setting Delegates
 		cf.delegate = self
@@ -167,7 +174,7 @@ class CodeField : NSTextView {
 		return NSFont.systemFont(ofSize: CodeField.stdFontSize())
 	}
 	
-	static func standardAtrributes() -> [String : Any] {
+	static func stdAtrributes() -> [String : Any] {
 		return [NSFontAttributeName: CodeField.standardFont()]
 	}
 	
@@ -176,4 +183,8 @@ class CodeField : NSTextView {
 	}
 	
 }
+
+//class OutField : CodeField {
+//	
+//}
 

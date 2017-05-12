@@ -79,8 +79,7 @@ class ViewController: NSViewController {
 				//add the proper font to the text, and append it to the codingfield (cf)
 				let fontAttribute = [NSFontAttributeName: CodeField.standardFont()]
 				let atString = NSAttributedString(string: newLine, attributes: fontAttribute)
-				let insertSpot = SchemeComm.locationOfCursor(codingField: self.cf)
-				self.outField.textStorage?.insert(atString, at: insertSpot)
+				self.outField.textStorage?.append(atString)
 			}
 		}
 	}

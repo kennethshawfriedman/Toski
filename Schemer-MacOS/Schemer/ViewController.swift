@@ -32,6 +32,7 @@ class ViewController: NSViewController {
 		cf.isAutomaticQuoteSubstitutionEnabled = false
 		cf.isAutomaticQuoteSubstitutionEnabled = false
 		cf.isEditable = false //don't edit until scheme launches
+		cf.textContainer?.containerSize = NSSize.init(width: CGFloat.infinity, height: CGFloat.infinity)
 		
 		
 		outField.isEditable = false;
@@ -80,7 +81,8 @@ class ViewController: NSViewController {
 				let fontAttribute = [NSFontAttributeName: CodeField.standardFont()]
 				let atString = NSAttributedString(string: newLine, attributes: fontAttribute)
 				let insertSpot = SchemeComm.locationOfCursor(codingField: self.cf)
-				self.cf.textStorage?.insert(atString, at: insertSpot)
+				//self.cf.textStorage?.insert(atString, at: insertSpot)
+				self.outField.textStorage?.append(atString)
 			}
 		}
 	}

@@ -14,6 +14,7 @@ class ViewController: NSViewController {
 	////UI Variables
 	@IBOutlet var cf: CodeField!
 	@IBOutlet var outField: NSTextView!
+	@IBOutlet var previewField: NSTextField!
 	
 	////Non-UI Variables
 	var handleIn = FileHandle()
@@ -35,6 +36,7 @@ class ViewController: NSViewController {
 		cf.isEditable = false //don't edit until scheme launches
 		cf.textContainer?.containerSize = NSSize.init(width: CGFloat.infinity, height: CGFloat.infinity)
 		
+		//previewField.backgroundColor = NSColor.red
 		
 		outField.isEditable = false;
 		outField.font = CodeField.standardFont()
@@ -84,10 +86,20 @@ class ViewController: NSViewController {
 				//add the proper font to the text, and append it to the codingfield (cf)
 				let fontAttribute = [NSFontAttributeName: CodeField.standardFont()]
 				let atString = NSAttributedString(string: newLine, attributes: fontAttribute)
+				
+				//KSF: the following two lines will insert the response at the cursor location
 				//let insertSpot = SchemeComm.locationOfCursor(codingField: self.cf)
-				//KSF: inserting at the cursor location
 				//self.cf.textStorage?.insert(atString, at: insertSpot)
-				self.outField.textStorage?.append(atString)
+				
+				if (self.previewFlag) {
+					//preview execution here
+					self.previewField.alphaValue = 1.0
+					self.previewField.attributedStringValue = atString
+					
+				} else {
+					//Not a preview: standard execution
+					self.outField.textStorage?.append(atString)
+				}
 			}
 		}
 	}
@@ -150,7 +162,8 @@ extension ViewController: NSTextViewDelegate, NSTextStorageDelegate {
 		//NOTE FROM KSF: this is the beginning of the highlight to eval feature.
 		//however, the necessary features aren't implemented yet, so all it does is execute and print the procedures
 		//that you highlight. There's no checking or anything. Don't uncomment unless you want to play with just this feature
-		
+		previewFlag = false //always set to false, but change to true if it passes the guard statements
+		self.previewField.alphaValue = 0.0 //always make the preview invisible. Change to visible when there is a result
 		let sRange = cf.selectedRange()
 		guard (sRange.length > 1) else {return}
 		let maybeSelectedText = cf.textStorage?.string

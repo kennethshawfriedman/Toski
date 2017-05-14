@@ -54,10 +54,9 @@ class ViewController: NSViewController {
 		//The launchpath on my machine is "/usr/local/bin/mit-scheme", but if this is different on someone else's computer, i
 		task.launchPath = SchemeHelper.findSchemeLaunchPath()
 		
-		
 		//load up the startup.scm code
-		let pathStr = "star"
-		task.arguments = ["--load", ]
+		let startupSCMPath = Bundle.main.path(forResource: "startup", ofType: "scm")
+		task.arguments = ["--load", startupSCMPath!]
 		//task set up
 		task.standardOutput = pipeOut
 		task.standardInput = pipeIn

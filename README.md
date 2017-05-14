@@ -3,19 +3,29 @@ A Prototype Debugging Tool for MIT Scheme
 
 ![Preview](https://github.com/kennethshawfriedman/Schemer/blob/master/Photos%20and%20Videos/schemer-preview.gif?raw=true)
 
+![Preview](https://github.com/kennethshawfriedman/Schemer/blob/master/Photos%20and%20Videos/node_schemer.gif?raw=true)
+
 ## This repo contains:
 
 - SchemerForMacOS: The desktop IDE app project
+- Node Schemer: A Node.js site for editing a Scheme notebook
 - Playgrounds: just a few playgrounds for early prototyping of Mac-to-Scheme communication.
 - Extras: containing supplemental files & images (no code)
 
 ## Requirements:
 
+### SchemerForMacOS:
 Very simply, there are only two: the OS, and the language (dependencies considered harmful)
 
 - MacOS, running 10.10 or higher (OS X Yosemite or higher)
     - and because it's a Cocoa Mac App, XCode is required to build the app (but not to run it)
 - MIT-Scheme already installed. Follow installation instructions here: [MIT-Scheme from GNU][install]. The location of your installation *shouldn't* matter.
+
+### Node Schemer:
+ - Meteor: http://meteor.com
+
+ Once installed, just `cd node_schemer` and then run `meteor`.
+ All required packages should install themselves, allowing you to then access a locally-hosted site at `http://localhost:3000`.
 
 
 [install]: https://www.gnu.org/software/mit-scheme/

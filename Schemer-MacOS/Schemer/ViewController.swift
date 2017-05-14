@@ -187,12 +187,20 @@ extension ViewController: NSTextViewDelegate, NSTextStorageDelegate {
 		self.previewField.alphaValue = 0.0 //always make the preview invisible. Change to visible when there is a result
 		self.previewField.stringValue = "" //reset the text as soon as the selection changes
 		
+		//grabs range of selected text
 		let sRange = cf.selectedRange()
 		guard (sRange.length > 1) else {return}
 		let maybeSelectedText = cf.textStorage?.string
 		guard let selectedText = maybeSelectedText else { return }
 		let selectedNSString = NSString(string: selectedText)
 		let highlightedText = selectedNSString.substring(with: sRange)
+		
+		//trivially looks to match number of parens before attempting a preview execution
+		let leftParenCount = highlightedText.countInstances(of: "(")
+		let rightParenCount = highlightedText.countInstances(of: ")")
+		guard leftParenCount == rightParenCount else { return }
+		
+		//ensures there is data to execute
 		let maybeHighlightAsData = highlightedText.data(using: .utf8)
 		guard let highlightData = maybeHighlightAsData else { return }
 		

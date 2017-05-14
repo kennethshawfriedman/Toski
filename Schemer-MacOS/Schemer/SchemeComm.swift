@@ -102,8 +102,6 @@ class SchemeProcess: Process {
 	static let shared = Process()
 }
 
-
-
 extension String {
 	
 	//This extends the built in String to grab lines
@@ -123,4 +121,20 @@ extension String {
 			return
 		}
 	}
+	
+	//Finds number of instances of particular substring
+	func countInstances(of stringToFind: String) -> Int {
+		var stringToSearch = self
+		var count = 0
+		repeat {
+			guard let foundRange = stringToSearch.range(of: stringToFind, options: .diacriticInsensitive)
+				else { break }
+			stringToSearch = stringToSearch.replacingCharacters(in: foundRange, with: "")
+			count += 1
+			
+		} while (true)
+		
+		return count
+	}
+	
 }

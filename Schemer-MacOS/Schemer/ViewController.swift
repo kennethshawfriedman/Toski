@@ -20,6 +20,7 @@ class ViewController: NSViewController {
 	let task = SchemeProcess.shared
 	var backspace = false //is most recent char the backspace?
 	var warmingUp = true  //is Scheme process still "warming up"?
+	var previewFlag = false //is the user trying to complete a preview execute
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -37,7 +38,7 @@ class ViewController: NSViewController {
 		
 		outField.isEditable = false;
 		outField.font = CodeField.standardFont()
-		let tempStr = NSAttributedString(string: "                                  ", attributes: CodeField.stdAtrributes())
+		let tempStr = NSAttributedString(string: "", attributes: CodeField.stdAtrributes())
 		outField.textStorage?.setAttributedString(tempStr)
 		
 		//Setting Delegates
@@ -150,15 +151,30 @@ extension ViewController: NSTextViewDelegate, NSTextStorageDelegate {
 		//however, the necessary features aren't implemented yet, so all it does is execute and print the procedures
 		//that you highlight. There's no checking or anything. Don't uncomment unless you want to play with just this feature
 		
-//		let sRange = cf.selectedRange()
-//		guard (sRange.length > 1) else {return}
-//		let maybeSelectedText = cf.textStorage?.string
-//		guard let selectedText = maybeSelectedText else { return }
-//		let selectedNSString = NSString(string: selectedText)
-//		let highlightedText = selectedNSString.substring(with: sRange)
-//		let maybeHighlightAsData = highlightedText.data(using: .utf8)
-//		guard let highlightData = maybeHighlightAsData else { return }
-//		handleIn.write(highlightData)
+		let sRange = cf.selectedRange()
+		guard (sRange.length > 1) else {return}
+		let maybeSelectedText = cf.textStorage?.string
+		guard let selectedText = maybeSelectedText else { return }
+		let selectedNSString = NSString(string: selectedText)
+		let highlightedText = selectedNSString.substring(with: sRange)
+		let maybeHighlightAsData = highlightedText.data(using: .utf8)
+		guard let highlightData = maybeHighlightAsData else { return }
+		
+		let createEnv = "(define preview-env (extend-top-level-environment (the-environment)))".data(using: .utf8)
+		
+		let enterPreEnv = "(ge preview-env)".data(using: .utf8)
+		
+		let exitPreEnv = "(ge (environment-parent (the-environment)))".data(using: .utf8)
+		
+		previewFlag = true
+		
+		handleIn.write(createEnv!)
+		handleIn.write(enterPreEnv!)
+		handleIn.write(highlightData)
+		handleIn.write(exitPreEnv!)
+		
+
+		
 	}
 	
 	func textView(_ textView: NSTextView, shouldChangeTextInRanges affectedRanges: [NSValue], replacementStrings: [String]?) -> Bool {

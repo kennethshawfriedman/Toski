@@ -102,16 +102,17 @@ class ViewController: NSViewController {
 					//try to prune uncessary things
 					var processString = newResult.string
 					
-					
+					//REGEX processing:
 					processString.stringByRemovingRegexMatches(pattern: ";Value: preview-env")
-					//REGEX WITHOUT ESCAPE CHARS: ;Value .+: #\[environment .+\]
-					processString.stringByRemovingRegexMatches(pattern: ";Value .+: #\\[environment .+\\]")
+					processString.stringByRemovingRegexMatches(pattern: ";Value .+: #\\[environment .+\\]") //WITHOUT ESCAPE CHARS: ;Value .+: #\[environment .+\]
 					processString.stringByRemovingRegexMatches(pattern: ";Package: \\(user\\)")//WITHOUT ESPACE: ;Package: \(user\)
+					processString.stringByRemovingRegexMatches(pattern: ";Unspecified return value")
 					processString.stringByRemovingRegexMatches(pattern: "\n")
 					
-					print("🔝")
-					print(processString)
-					print("⸥")
+					//output for debugging:
+//					print("🔝")
+//					print(processString)
+//					print("⸥")
 					
 					self.previewField.attributedStringValue = NSAttributedString(string: processString, attributes: CodeField.stdAtrributes())
 					

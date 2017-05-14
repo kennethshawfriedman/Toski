@@ -37,7 +37,7 @@ class ViewController: NSViewController {
 		
 		outField.isEditable = false;
 		outField.font = CodeField.standardFont()
-		let tempStr = NSAttributedString(string: "output will eventually go here, optionally!", attributes: CodeField.stdAtrributes())
+		let tempStr = NSAttributedString(string: "                                  ", attributes: CodeField.stdAtrributes())
 		outField.textStorage?.setAttributedString(tempStr)
 		
 		//Setting Delegates
@@ -80,7 +80,8 @@ class ViewController: NSViewController {
 				//add the proper font to the text, and append it to the codingfield (cf)
 				let fontAttribute = [NSFontAttributeName: CodeField.standardFont()]
 				let atString = NSAttributedString(string: newLine, attributes: fontAttribute)
-				let insertSpot = SchemeComm.locationOfCursor(codingField: self.cf)
+				//let insertSpot = SchemeComm.locationOfCursor(codingField: self.cf)
+				//KSF: inserting at the cursor location
 				//self.cf.textStorage?.insert(atString, at: insertSpot)
 				self.outField.textStorage?.append(atString)
 			}

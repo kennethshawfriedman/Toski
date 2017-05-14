@@ -14,6 +14,7 @@
 		B95F69661EB94D8A0074C915 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B95F69641EB94D8A0074C915 /* Main.storyboard */; };
 		B9C56FFB1EBEDD8A00876E1B /* SourceCodePro-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B9C56FFA1EBEDD8A00876E1B /* SourceCodePro-Regular.ttf */; };
 		B9C56FFD1EC00F7200876E1B /* Syntaxr.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C56FFC1EC00F7200876E1B /* Syntaxr.swift */; };
+		B9D3A8EB1EC825BD003DA648 /* starup.scm in Resources */ = {isa = PBXBuildFile; fileRef = B9D3A8EA1EC825BD003DA648 /* starup.scm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		B95F69671EB94D8A0074C915 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B9C56FFA1EBEDD8A00876E1B /* SourceCodePro-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceCodePro-Regular.ttf"; sourceTree = "<group>"; };
 		B9C56FFC1EC00F7200876E1B /* Syntaxr.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Syntaxr.swift; sourceTree = "<group>"; };
+		B9D3A8EA1EC825BD003DA648 /* starup.scm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = starup.scm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +62,7 @@
 			children = (
 				B95F695E1EB94D8A0074C915 /* AppDelegate.swift */,
 				B95F69601EB94D8A0074C915 /* ViewController.swift */,
+				B9D3A8EA1EC825BD003DA648 /* starup.scm */,
 				B9C56FFC1EC00F7200876E1B /* Syntaxr.swift */,
 				B91188501EBC3FAB003506C4 /* SchemeComm.swift */,
 				B95F69621EB94D8A0074C915 /* Assets.xcassets */,
@@ -132,6 +135,7 @@
 			files = (
 				B95F69631EB94D8A0074C915 /* Assets.xcassets in Resources */,
 				B9C56FFB1EBEDD8A00876E1B /* SourceCodePro-Regular.ttf in Resources */,
+				B9D3A8EB1EC825BD003DA648 /* starup.scm in Resources */,
 				B95F69661EB94D8A0074C915 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

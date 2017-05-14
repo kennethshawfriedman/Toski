@@ -103,11 +103,12 @@ class ViewController: NSViewController {
 					var processString = newResult.string
 					
 					//REGEX processing:
-					processString.stringByRemovingRegexMatches(pattern: ";Value: preview-env")
+					processString.stringByRemovingRegexMatches(pattern: "preview-env")
 					processString.stringByRemovingRegexMatches(pattern: ";Value .+: #\\[environment .+\\]") //WITHOUT ESCAPE CHARS: ;Value .+: #\[environment .+\]
 					processString.stringByRemovingRegexMatches(pattern: ";Package: \\(user\\)")//WITHOUT ESPACE: ;Package: \(user\)
 					processString.stringByRemovingRegexMatches(pattern: ";Unspecified return value")
 					processString.stringByRemovingRegexMatches(pattern: "\n")
+					processString.stringByRemovingRegexMatches(pattern: ";Value: ") //this should remove the final value set up, which will then just have the procedure available
 					
 					//output for debugging:
 //					print("🔝")

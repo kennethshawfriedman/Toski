@@ -76,7 +76,10 @@ class ViewController: NSViewController {
 			print("\(line)", terminator: "")
 			
 			//No need to show the user the REPL input text: the input can be anywhere!
-			let newLine = line.replacingOccurrences(of: "1 ]=> ", with: "")
+			var newLine = line.replacingOccurrences(of: "1 ]=> ", with: "")
+			
+			//other things to prune out (for preview executions... I should really clean this up but okay for now)
+			newLine = newLine.replacingOccurrences(of: "#[environment", with: "")
 
 			//if you shouldn't prin the line, just return
 			guard !self.warmingUp else { return }
@@ -94,6 +97,7 @@ class ViewController: NSViewController {
 				if (self.previewFlag) {
 					//preview execution here
 					self.previewField.alphaValue = 1.0
+					
 					self.previewField.attributedStringValue = atString
 					
 				} else {
@@ -162,8 +166,11 @@ extension ViewController: NSTextViewDelegate, NSTextStorageDelegate {
 		//NOTE FROM KSF: this is the beginning of the highlight to eval feature.
 		//however, the necessary features aren't implemented yet, so all it does is execute and print the procedures
 		//that you highlight. There's no checking or anything. Don't uncomment unless you want to play with just this feature
+		
 		previewFlag = false //always set to false, but change to true if it passes the guard statements
 		self.previewField.alphaValue = 0.0 //always make the preview invisible. Change to visible when there is a result
+		self.previewField.stringValue = "" //reset the text as soon as the selection changes
+		
 		let sRange = cf.selectedRange()
 		guard (sRange.length > 1) else {return}
 		let maybeSelectedText = cf.textStorage?.string

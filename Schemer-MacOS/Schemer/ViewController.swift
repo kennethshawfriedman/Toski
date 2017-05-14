@@ -14,12 +14,14 @@ class ViewController: NSViewController {
 	////UI Variables
 	@IBOutlet var cf: CodeField!
 	@IBOutlet var outField: NSTextView!
+	@IBOutlet var previewField: NSTextField!
 	
 	////Non-UI Variables
 	var handleIn = FileHandle()
 	let task = SchemeProcess.shared
 	var backspace = false //is most recent char the backspace?
 	var warmingUp = true  //is Scheme process still "warming up"?
+	var previewFlag = false //is the user trying to complete a preview execute
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -32,11 +34,13 @@ class ViewController: NSViewController {
 		cf.isAutomaticQuoteSubstitutionEnabled = false
 		cf.isAutomaticQuoteSubstitutionEnabled = false
 		cf.isEditable = false //don't edit until scheme launches
+		cf.textContainer?.containerSize = NSSize.init(width: CGFloat.infinity, height: CGFloat.infinity)
 		
+		previewField.alphaValue = 0.0 //invisible from start
 		
 		outField.isEditable = false;
 		outField.font = CodeField.standardFont()
-		let tempStr = NSAttributedString(string: "                                  ", attributes: CodeField.stdAtrributes())
+		let tempStr = NSAttributedString(string: "", attributes: CodeField.stdAtrributes())
 		outField.textStorage?.setAttributedString(tempStr)
 		
 		//Setting Delegates
@@ -53,6 +57,9 @@ class ViewController: NSViewController {
 		//The launchpath on my machine is "/usr/local/bin/mit-scheme", but if this is different on someone else's computer, i
 		task.launchPath = SchemeHelper.findSchemeLaunchPath()
 		
+		//load up the startup.scm code
+		let startupSCMPath = Bundle.main.path(forResource: "startup", ofType: "scm")
+		task.arguments = ["--load", startupSCMPath!]
 		//task set up
 		task.standardOutput = pipeOut
 		task.standardInput = pipeIn
@@ -69,7 +76,10 @@ class ViewController: NSViewController {
 			print("\(line)", terminator: "")
 			
 			//No need to show the user the REPL input text: the input can be anywhere!
-			let newLine = line.replacingOccurrences(of: "1 ]=> ", with: "")
+			var newLine = line.replacingOccurrences(of: "1 ]=> ", with: "")
+			
+			//other things to prune out (for preview executions... I should really clean this up but okay for now)
+			newLine = newLine.replacingOccurrences(of: "#[environment", with: "")
 
 			//if you shouldn't prin the line, just return
 			guard !self.warmingUp else { return }
@@ -79,7 +89,24 @@ class ViewController: NSViewController {
 				//add the proper font to the text, and append it to the codingfield (cf)
 				let fontAttribute = [NSFontAttributeName: CodeField.standardFont()]
 				let atString = NSAttributedString(string: newLine, attributes: fontAttribute)
-				self.outField.textStorage?.append(atString)
+				
+				//KSF: the following two lines will insert the response at the cursor location
+				//let insertSpot = SchemeComm.locationOfCursor(codingField: self.cf)
+				//self.cf.textStorage?.insert(atString, at: insertSpot)
+				
+				if (self.previewFlag) {
+					//preview execution here
+					self.previewField.alphaValue = 1.0
+					
+					let newResult = NSMutableAttributedString.init(attributedString: self.previewField.attributedStringValue)
+					newResult.append(atString)
+					//PROCESS HERE!
+					self.previewField.attributedStringValue = newResult
+					
+				} else {
+					//Not a preview: standard execution
+					self.outField.textStorage?.append(atString)
+				}
 			}
 		}
 	}
@@ -115,7 +142,6 @@ class ViewController: NSViewController {
 	
 	//This function is called on Cmd+Enter: it executes a call to Scheme Communication
 	func executeCommand() {
-		warmingUp = false
 		let dataToSubmit = SchemeComm.parseExecutionCommand(codingField: cf)
 		handleIn.write(dataToSubmit)
 	}
@@ -125,6 +151,7 @@ class ViewController: NSViewController {
 	}
 	
 	override func textStorageDidProcessEditing(_ notification: Notification) {
+		warmingUp = false
 		guard !backspace else { return }
 		let textStorage = notification.object as! NSTextStorage
 		let allText = textStorage.string
@@ -143,15 +170,37 @@ extension ViewController: NSTextViewDelegate, NSTextStorageDelegate {
 		//however, the necessary features aren't implemented yet, so all it does is execute and print the procedures
 		//that you highlight. There's no checking or anything. Don't uncomment unless you want to play with just this feature
 		
-//		let sRange = cf.selectedRange()
-//		guard (sRange.length > 1) else {return}
-//		let maybeSelectedText = cf.textStorage?.string
-//		guard let selectedText = maybeSelectedText else { return }
-//		let selectedNSString = NSString(string: selectedText)
-//		let highlightedText = selectedNSString.substring(with: sRange)
-//		let maybeHighlightAsData = highlightedText.data(using: .utf8)
-//		guard let highlightData = maybeHighlightAsData else { return }
-//		handleIn.write(highlightData)
+		previewFlag = false //always set to false, but change to true if it passes the guard statements
+		self.previewField.alphaValue = 0.0 //always make the preview invisible. Change to visible when there is a result
+		self.previewField.stringValue = "" //reset the text as soon as the selection changes
+		
+		let sRange = cf.selectedRange()
+		guard (sRange.length > 1) else {return}
+		let maybeSelectedText = cf.textStorage?.string
+		guard let selectedText = maybeSelectedText else { return }
+		let selectedNSString = NSString(string: selectedText)
+		let highlightedText = selectedNSString.substring(with: sRange)
+		let maybeHighlightAsData = highlightedText.data(using: .utf8)
+		guard let highlightData = maybeHighlightAsData else { return }
+		
+		//creates a new env with same bindings
+		let createEnv = "(define preview-env (extend-top-level-environment (the-environment)))".data(using: .utf8)
+		
+		//enters the new binding
+		let enterPreEnv = "(ge preview-env)".data(using: .utf8)
+		
+		//leaves the new binding (assumption: the code itself ends in the same env it began.)
+		let exitPreEnv = "(ge (environment-parent (the-environment)))".data(using: .utf8)
+		
+		previewFlag = true
+		
+		handleIn.write(createEnv!)
+		handleIn.write(enterPreEnv!)
+		handleIn.write(highlightData)
+		handleIn.write(exitPreEnv!)
+		
+
+		
 	}
 	
 	func textView(_ textView: NSTextView, shouldChangeTextInRanges affectedRanges: [NSValue], replacementStrings: [String]?) -> Bool {

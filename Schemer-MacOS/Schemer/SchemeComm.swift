@@ -103,11 +103,24 @@ class SchemeProcess: Process {
 }
 
 
-//This extends the built in String to grab lines
+
 extension String {
+	
+	//This extends the built in String to grab lines
 	var lines: [String] {
 		var result: [String] = []
 		enumerateLines { line, _ in result.append(line) }
 		return result
+	}
+	
+	//This extends the built in String to have a method for
+	mutating func stringByRemovingRegexMatches(pattern: String, replaceWith: String = "") {
+		do {
+			let regex = try NSRegularExpression(pattern: pattern, options: NSRegularExpression.Options.caseInsensitive)
+			let range = NSMakeRange(0, self.characters.count)
+			self = regex.stringByReplacingMatches(in: self, options: [], range: range, withTemplate: replaceWith)
+		} catch {
+			return
+		}
 	}
 }

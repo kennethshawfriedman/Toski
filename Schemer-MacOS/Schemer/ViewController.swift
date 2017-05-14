@@ -76,10 +76,8 @@ class ViewController: NSViewController {
 			print("\(line)", terminator: "")
 			
 			//No need to show the user the REPL input text: the input can be anywhere!
-			var newLine = line.replacingOccurrences(of: "1 ]=> ", with: "")
-			
-			//other things to prune out (for preview executions... I should really clean this up but okay for now)
-			newLine = newLine.replacingOccurrences(of: "#[environment", with: "")
+			let newLine = line.replacingOccurrences(of: "1 ]=> ", with: "")
+
 
 			//if you shouldn't prin the line, just return
 			guard !self.warmingUp else { return }
@@ -100,8 +98,22 @@ class ViewController: NSViewController {
 					
 					let newResult = NSMutableAttributedString.init(attributedString: self.previewField.attributedStringValue)
 					newResult.append(atString)
-					//PROCESS HERE!
-					self.previewField.attributedStringValue = newResult
+					
+					//try to prune uncessary things
+					var processString = newResult.string
+					
+					
+					processString.stringByRemovingRegexMatches(pattern: ";Value: preview-env")
+					//REGEX WITHOUT ESCAPE CHARS: ;Value .+: #\[environment .+\]
+					processString.stringByRemovingRegexMatches(pattern: ";Value .+: #\\[environment .+\\]")
+					processString.stringByRemovingRegexMatches(pattern: ";Package: \\(user\\)")//WITHOUT ESPACE: ;Package: \(user\)
+					processString.stringByRemovingRegexMatches(pattern: "\n")
+					
+					print("🔝")
+					print(processString)
+					print("⸥")
+					
+					self.previewField.attributedStringValue = NSAttributedString(string: processString, attributes: CodeField.stdAtrributes())
 					
 				} else {
 					//Not a preview: standard execution

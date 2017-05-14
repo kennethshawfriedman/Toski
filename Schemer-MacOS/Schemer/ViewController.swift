@@ -36,7 +36,7 @@ class ViewController: NSViewController {
 		cf.isEditable = false //don't edit until scheme launches
 		cf.textContainer?.containerSize = NSSize.init(width: CGFloat.infinity, height: CGFloat.infinity)
 		
-		//previewField.backgroundColor = NSColor.red
+		previewField.alphaValue = 0.0 //invisible from start
 		
 		outField.isEditable = false;
 		outField.font = CodeField.standardFont()
@@ -98,7 +98,10 @@ class ViewController: NSViewController {
 					//preview execution here
 					self.previewField.alphaValue = 1.0
 					
-					self.previewField.attributedStringValue = atString
+					let newResult = NSMutableAttributedString.init(attributedString: self.previewField.attributedStringValue)
+					newResult.append(atString)
+					//PROCESS HERE!
+					self.previewField.attributedStringValue = newResult
 					
 				} else {
 					//Not a preview: standard execution
@@ -139,7 +142,6 @@ class ViewController: NSViewController {
 	
 	//This function is called on Cmd+Enter: it executes a call to Scheme Communication
 	func executeCommand() {
-		warmingUp = false
 		let dataToSubmit = SchemeComm.parseExecutionCommand(codingField: cf)
 		handleIn.write(dataToSubmit)
 	}
@@ -149,6 +151,7 @@ class ViewController: NSViewController {
 	}
 	
 	override func textStorageDidProcessEditing(_ notification: Notification) {
+		warmingUp = false
 		guard !backspace else { return }
 		let textStorage = notification.object as! NSTextStorage
 		let allText = textStorage.string
@@ -180,10 +183,13 @@ extension ViewController: NSTextViewDelegate, NSTextStorageDelegate {
 		let maybeHighlightAsData = highlightedText.data(using: .utf8)
 		guard let highlightData = maybeHighlightAsData else { return }
 		
+		//creates a new env with same bindings
 		let createEnv = "(define preview-env (extend-top-level-environment (the-environment)))".data(using: .utf8)
 		
+		//enters the new binding
 		let enterPreEnv = "(ge preview-env)".data(using: .utf8)
 		
+		//leaves the new binding (assumption: the code itself ends in the same env it began.)
 		let exitPreEnv = "(ge (environment-parent (the-environment)))".data(using: .utf8)
 		
 		previewFlag = true

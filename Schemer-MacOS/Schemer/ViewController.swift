@@ -76,8 +76,9 @@ class ViewController: NSViewController {
 			print("\(line)", terminator: "")
 			
 			//No need to show the user the REPL input text: the input can be anywhere!
-			let newLine = line.replacingOccurrences(of: "1 ]=> ", with: "")
-
+			var newLine = line.replacingOccurrences(of: "1 ]=> ", with: "")
+			newLine = newLine.replacingOccurrences(of: ";Unspecified return value", with: "")
+			newLine.stringByRemovingRegexMatches(pattern: "\\d+ error> ") //without espcape: \d+ error>
 
 			//if you shouldn't prin the line, just return
 			guard !self.warmingUp else { return }
@@ -103,12 +104,15 @@ class ViewController: NSViewController {
 					var processString = newResult.string
 					
 					//REGEX processing:
-					processString.stringByRemovingRegexMatches(pattern: "preview-env")
-					processString.stringByRemovingRegexMatches(pattern: ";Value .+: #\\[environment .+\\]") //WITHOUT ESCAPE CHARS: ;Value .+: #\[environment .+\]
-					processString.stringByRemovingRegexMatches(pattern: ";Package: \\(user\\)")//WITHOUT ESPACE: ;Package: \(user\)
-					processString.stringByRemovingRegexMatches(pattern: ";Unspecified return value")
-					processString.stringByRemovingRegexMatches(pattern: "\n")
-					processString.stringByRemovingRegexMatches(pattern: ";Value: ") //this should remove the final value set up, which will then just have the procedure available
+//					processString.stringByRemovingRegexMatches(pattern: "preview-env")
+//					processString.stringByRemovingRegexMatches(pattern: ";Value .+: #\\[environment .+\\]") //WITHOUT ESCAPE CHARS: ;Value .+: #\[environment .+\]
+//					processString.stringByRemovingRegexMatches(pattern: ";Package: \\(user\\)")//WITHOUT ESPACE: ;Package: \(user\)
+//					processString.stringByRemovingRegexMatches(pattern: ";Unspecified return value")
+//					processString.stringByRemovingRegexMatches(pattern: "\n")
+//					processString.stringByRemovingRegexMatches(pattern: ";Value: ") //this should remove the final value set up, which will then just have the procedure available
+					
+					let regex  = "(preview-env)|(;Value .+: #\\[environment .+\\])|(;Package: \\(user\\))|(;Unspecified return value)|(\n)|(;Value: )"
+					processString.stringByRemovingRegexMatches(pattern: regex)
 					
 					//output for debugging:
 //					print("🔝")
@@ -120,6 +124,8 @@ class ViewController: NSViewController {
 				} else {
 					//Not a preview: standard execution
 					self.outField.textStorage?.append(atString)
+					let strLength = self.outField.string?.characters.count
+					self.outField.scrollRangeToVisible(NSRange.init(location: strLength!, length: 0))
 				}
 			}
 		}

@@ -1,0 +1,14 @@
+(load "/Users/blake/Dropbox (MIT)/Classes/6.945/Final_Project/Schemer/modified-eval-apply/code/load")
+
+
+(define orig-apply apply)
+
+(define (apply procedure arguments calling-environment)
+  (display "hi")
+  (orig-apply procedure arguments calling-environment))
+
+(define orig-eval eval)
+
+(define (eval expression environment)
+  (display "bye")
+  (orig-eval expression environment))

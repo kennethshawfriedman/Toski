@@ -23,7 +23,32 @@ This code is run at start up. It does the following things:
 
 
 
+#|
 
+(define safe-eval
+    (let
+        ((reporting-error-handler (lambda (error)
+            (pp (list "error" (condition/report-string error)))
+            (newline)
+            (restart 1))))
+
+        (lambda (env code-to-eval-as-string)
+            (bind-condition-handler '() reporting-error-handler
+                (lambda ()
+                    (eval
+                        (read (string->input-port
+                            (string-append
+                            "((lambda ()"
+                            code-to-eval-as-string
+                            "))")))
+                        env))))))
+
+
+
+; (safe-eval (the-environment) "(define (foo n) (+ n 3))(foo 4)")
+; (safe-eval (the-environment) "(define malformed")
+
+|#
 
 
 

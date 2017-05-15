@@ -588,7 +588,7 @@ DQ
                                                     <rect key="frame" x="1" y="1" width="304" height="463"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
-                                                        <textView importsGraphics="NO" usesFontPanel="YES" findStyle="panel" allowsUndo="YES" usesRuler="YES" allowsNonContiguousLayout="YES" id="fOw-0p-Xuc">
+                                                        <textView importsGraphics="NO" usesFontPanel="YES" findStyle="panel" allowsUndo="YES" usesRuler="YES" allowsNonContiguousLayout="YES" id="fOw-0p-Xuc" customClass="CodeField" customModule="Schemer" customModuleProvider="target">
                                                             <rect key="frame" x="0.0" y="-0.5" width="304" height="463"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

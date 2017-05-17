@@ -49,7 +49,7 @@
   (if (eq? the-global-environment 'not-initialized)
 	  (error "Interpreter not initialized. Run (init) first."))
   (let ((input (read)))
-    (let lp ((i 0)) 
+    (let lp ((i max-depth)) 
       (write-line (eval input the-global-environment i))
       (if (< i max-depth)
         (lp (+ i 1))

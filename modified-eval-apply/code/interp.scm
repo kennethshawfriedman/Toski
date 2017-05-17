@@ -143,8 +143,10 @@
                        (cons (eval (first-operand operands)
                        calling-environment depth)
                        (evaluate-list (rest-operands operands))))))
-                    (apply-primitive-procedure procedure
-                      (evaluate-list operands) (- depth 1))
+                    (list
+                      (apply-primitive-procedure procedure
+                        (evaluate-list (map car operands)) (- depth 1))
+                      (list procedure operands calling-environment))
 
               ))))
         )
@@ -171,20 +173,22 @@
                     (length operands)))
                   (error "Wrong number of operands supplied"))
               (let ((arguments
-               (map (lambda (parameter operand)
-                (evaluate-procedure-operand parameter
-                          operand
-                          calling-environment
-                          depth))
-              (procedure-parameters procedure)
-              operands)))
+                     (map (lambda (parameter operand)
+                      (evaluate-procedure-operand parameter
+                                operand
+                                calling-environment
+                                depth))
+                    (procedure-parameters procedure)
+                    (map car operands))))
                 (eval (procedure-body procedure)
                   (extend-environment
                    (map procedure-parameter-name
                   (procedure-parameters procedure))
                    arguments
                    (procedure-environment procedure))
-                  (- depth 1)))
+                  (- depth 1))
+
+                )
 
               )))))
 

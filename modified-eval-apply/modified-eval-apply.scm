@@ -2,6 +2,14 @@
 
 
 (define orig-apply apply)
+(define orig-eval eval)
+
+(define (apply procedure arguments calling-environment depth)
+  (list (orig-apply procedure (map car arguments) calling-environment depth)
+  	    (list procedure arguments calling-environment)))
+
+;(define (eval expression environment depth)
+;	(orig-eval (car expression) environment depth))
 
 #|
 (define (apply procedure arguments calling-environment depth)
@@ -12,8 +20,6 @@
 ;;  (display depth)
 ;;  (newline)
    (orig-apply procedure arguments calling-environment depth))
-
-(define orig-eval eval)
 
 (define (eval expression environment depth)
 ;; (display expression)

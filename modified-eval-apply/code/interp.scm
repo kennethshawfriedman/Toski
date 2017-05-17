@@ -118,6 +118,19 @@
 (define apply
   (make-generic-operator 4 'apply default-apply))
 
+#|
+(define *tracked* (list 'tracked))
+
+(define (make-tracked-operands operands)
+  (cons *tracked* 
+        (map 
+          (lambda (operand)
+            (list operand '()))
+          operands))
+
+(define tracked-operands)
+|#
+
 (defhandler apply
   (lambda (procedure operands calling-environment depth)
     (if (= depth 0)
@@ -146,7 +159,7 @@
                     (list
                       (apply-primitive-procedure procedure
                         (evaluate-list (map car operands)) (- depth 1))
-                      (list procedure operands calling-environment))
+                      (cons procedure operands))
 
               ))))
         )
@@ -163,8 +176,8 @@
             '()
             (lambda (e)
               (cont 
-                
-                (cons procedure operands) #| catch |#
+                (error "error in apply compound procedure")
+                ;(cons procedure operands) #| catch |#
 
                 )) ;; self-evaluate
             (lambda () 
@@ -180,13 +193,15 @@
                                 depth))
                     (procedure-parameters procedure)
                     (map car operands))))
-                (eval (procedure-body procedure)
-                  (extend-environment
-                   (map procedure-parameter-name
-                  (procedure-parameters procedure))
-                   arguments
-                   (procedure-environment procedure))
-                  (- depth 1))
+                (list
+                  (eval (procedure-body procedure)
+                    (extend-environment
+                     (map procedure-parameter-name
+                    (procedure-parameters procedure))
+                     arguments
+                     (procedure-environment procedure))
+                    (- depth 1))
+                  (cons procedure operands))
 
                 )
 

@@ -43,13 +43,13 @@
 	(extend-environment '() '() the-empty-environment))
   (repl))
 
-(define max-depth 20)
+(define max-depth 200)
 
 (define (repl)
   (if (eq? the-global-environment 'not-initialized)
 	  (error "Interpreter not initialized. Run (init) first."))
   (let ((input (read)))
-    (let lp ((i max-depth)) 
+    (let lp ((i 0)) 
       (write-line (eval input the-global-environment i))
       (if (< i max-depth)
         (lp (+ i 1))

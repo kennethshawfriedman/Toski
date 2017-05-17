@@ -104,21 +104,9 @@ class ViewController: NSViewController {
 					var processString = newResult.string
 					
 					//REGEX processing:
-//					processString.stringByRemovingRegexMatches(pattern: "preview-env")
-//					processString.stringByRemovingRegexMatches(pattern: ";Value .+: #\\[environment .+\\]") //WITHOUT ESCAPE CHARS: ;Value .+: #\[environment .+\]
-//					processString.stringByRemovingRegexMatches(pattern: ";Package: \\(user\\)")//WITHOUT ESPACE: ;Package: \(user\)
-//					processString.stringByRemovingRegexMatches(pattern: ";Unspecified return value")
-//					processString.stringByRemovingRegexMatches(pattern: "\n")
-//					processString.stringByRemovingRegexMatches(pattern: ";Value: ") //this should remove the final value set up, which will then just have the procedure available
-					
 					let regex  = "(preview-env)|(;Value .+: #\\[environment .+\\])|(;Package: \\(user\\))|(;Unspecified return value)|(\n)|(;Value: )"
 					processString.stringByRemovingRegexMatches(pattern: regex)
-					
-					//output for debugging:
-//					print("🔝")
-//					print(processString)
-//					print("⸥")
-					
+
 					self.previewField.attributedStringValue = NSAttributedString(string: processString, attributes: CodeField.stdAtrributes())
 					
 				} else {
@@ -177,6 +165,7 @@ class ViewController: NSViewController {
 		let allText = textStorage.string
 		let formattedText = Syntaxr.highlightAllText(allText)
 		textStorage.setAttributedString(formattedText)
+		
 	}
 }
 

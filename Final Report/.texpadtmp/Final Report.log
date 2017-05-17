@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2014.5.25)  16 MAY 2017 23:05
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2014.5.25)  16 MAY 2017 23:14
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -463,7 +463,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 63--70
 
  []
 
-<preview-1.png, id=53, 1883.035pt x 1130.2225pt>
+<preview-1.png, id=57, 1883.035pt x 1130.2225pt>
 File: preview-1.png Graphic file (type png)
  <use preview-1.png>
 Package pdftex.def Info: preview-1.png used on input line 72.
@@ -503,7 +503,7 @@ Underfull \hbox (badness 1478) in paragraph at lines 78--85
 [1
 
 
- <./preview-1.png>] <preview-2.png, id=65, 1457.445pt x 1069.9975pt>
+ <./preview-1.png>] <preview-2.png, id=69, 1457.445pt x 1069.9975pt>
 File: preview-2.png Graphic file (type png)
  <use preview-2.png>
 Package pdftex.def Info: preview-2.png used on input line 91.
@@ -587,35 +587,35 @@ Missing character: There is no ‚ in font pplr7t!
 Missing character: There is no Ä in font pplr7t!
 Missing character: There is no ù in font pplr7t!
  [2 <./preview-2.png>]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 136.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 137.
  [3
 
 ]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 136.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 137.
  (/Users/Kenny/Desktop/Schemer/Final Report/.texpadtmp/Final Report.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 136.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 136.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 137.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 137.
 Package rerunfilecheck Info: File `"Final Report".out' has not changed.
 (rerunfilecheck)             Checksum: <no file>.
 
 
 LaTeX Warning: There were multiply-defined labels.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 136.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 137.
  ) 
 Here is how much of TeX's memory you used:
- 8358 strings out of 493117
- 126187 string characters out of 6135433
+ 8360 strings out of 493117
+ 126207 string characters out of 6135433
  246236 words of memory out of 5000000
- 11702 multiletter control sequences out of 15000+600000
+ 11703 multiletter control sequences out of 15000+600000
  46894 words of font info for 99 fonts, out of 8000000 for 9000
  1144 hyphenation exceptions out of 8191
  29i,9n,40p,805b,1424s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2014/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/urw/helvetic/uhvro8a.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/urw/palatino/uplri8a.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/urw/zapfding/uzdr.pfb>
-Output written on "/Users/Kenny/Desktop/Schemer/Final Report/.texpadtmp/Final Report.pdf" (4 pages, 227071 bytes).
+Output written on "/Users/Kenny/Desktop/Schemer/Final Report/.texpadtmp/Final Report.pdf" (4 pages, 227548 bytes).
 PDF statistics:
- 121 PDF objects out of 1000 (max. 8388607)
- 101 compressed objects within 2 object streams
- 25 named destinations out of 1000 (max. 500000)
- 91 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 126 PDF objects out of 1000 (max. 8388607)
+ 106 compressed objects within 2 object streams
+ 26 named destinations out of 1000 (max. 500000)
+ 99 words of extra memory for PDF output out of 10000 (max. 10000000)
 

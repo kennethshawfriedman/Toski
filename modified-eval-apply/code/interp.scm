@@ -28,20 +28,29 @@
 
 (defhandler eval 
   (lambda (expression environment depth)
-    (lookup-variable-value expression environment))
+    (if (= depth 0)
+         expression
+         (lookup-variable-value expression environment))
+    )
   variable?)
 
 (defhandler eval
   (lambda (expression environment depth)
-    (text-of-quotation expression))
+    ;(if (= depth 0)
+    ;    expression
+        (text-of-quotation expression))
+    ;)
   quoted?)
 
 (defhandler eval
   (lambda (expression environment depth)
-    (make-compound-procedure
-     (lambda-parameters expression)
-     (lambda-body expression)
-     environment))
+  ;  (if (= depth 0)
+  ;      expression
+        (make-compound-procedure
+          (lambda-parameters expression)
+          (lambda-body expression)
+          environment))
+   ; )
   lambda?)
 
 (defhandler eval
@@ -62,7 +71,10 @@
 
 (defhandler eval
   (lambda (expression environment depth)
-    (eval (let->combination expression) environment (- depth 1)))
+    (if (= depth 0)
+        expression
+        (eval (let->combination expression) environment (- depth 1)))
+    )
   let?)
 
 (defhandler eval
@@ -74,14 +86,14 @@
   begin?)
 
 (define (evaluate-sequence actions environment depth)
-  (cond ((null? actions)
-	 (error "Empty sequence"))
-  ((= depth 0) actions)
-	((null? (rest-exps actions))
-	 (eval (first-exp actions) environment (- depth 1)))
-	(else
-	 (eval (first-exp actions) environment (- depth 1))
-	 (evaluate-sequence (rest-exps actions) environment depth))))
+  (cond 
+    ((null? actions) (error "Empty sequence"))
+    ((= depth 0) actions)
+	  ((null? (rest-exps actions))
+	  (eval (first-exp actions) environment (- depth 1)))
+  	(else
+  	  (eval (first-exp actions) environment (- depth 1))
+  	  (evaluate-sequence (rest-exps actions) environment depth))))
 
 (defhandler eval
   (lambda (expression environment depth)
@@ -176,7 +188,10 @@
     )
   compound-procedure?)
   
-
+(defhandler apply
+  (lambda (procedure-name operands calling-environment depth)
+    (cons procedure-name operands))
+  symbol?)
 
 (define evaluate-procedure-operand
   (make-generic-operator 4

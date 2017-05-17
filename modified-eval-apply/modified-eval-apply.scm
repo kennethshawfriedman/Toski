@@ -3,6 +3,7 @@
 
 (define orig-apply apply)
 
+#|
 (define (apply procedure arguments calling-environment depth)
 ; (display "(\n")
    (pp (cons procedure (map (lambda (arg) (eval arg calling-environment (- depth 1))) arguments)))
@@ -21,4 +22,16 @@
 ;;  (display depth)
 ;;  (newline)
   (orig-eval expression environment depth))
+
+|#
+
+
+
+
+
+
+
+
+
+
 

@@ -36,21 +36,21 @@
 
 (defhandler eval
   (lambda (expression environment depth)
-    ;(if (= depth 0)
-    ;    expression
+    (if (= depth 0)
+        expression
         (text-of-quotation expression))
-    ;)
+    )
   quoted?)
 
 (defhandler eval
   (lambda (expression environment depth)
-  ;  (if (= depth 0)
-  ;      expression
+    (if (= depth 0)
+        expression
         (make-compound-procedure
           (lambda-parameters expression)
           (lambda-body expression)
           environment))
-   ; )
+    )
   lambda?)
 
 (defhandler eval
@@ -61,7 +61,7 @@
           (eval (if-consequent expression) environment (- depth 1))
           (eval (if-alternative expression) environment (- depth 1)))))
   if?)
-
+
 (defhandler eval
   (lambda (expression environment depth)
     (if (= depth 0)
@@ -97,13 +97,13 @@
 
 (defhandler eval
   (lambda (expression environment depth)
-   ; (if (= depth 0)
-   ;   expression
-   ;   (begin
+    (if (= depth 0)
+      expression
+      (begin
         (define-variable! (definition-variable expression)
           (eval (definition-value expression) environment depth)
           environment)
-        (definition-variable expression))
+        (definition-variable expression))))
   definition?)
 
 (defhandler eval
@@ -114,7 +114,7 @@
         (eval (assignment-value expression) environment (- depth 1))
         environment)))
   assignment?)
-
+
 (define apply
   (make-generic-operator 4 'apply default-apply))
 

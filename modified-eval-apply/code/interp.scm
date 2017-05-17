@@ -120,70 +120,73 @@
 
 (defhandler apply
   (lambda (procedure operands calling-environment depth)
+    (if (= depth 0)
+        (cons procedure operands)
+        (call-with-current-continuation
+         (lambda (cont)
+           (bind-condition-handler
+            '()
+            (lambda (e)
+              (cont 
 
-    (call-with-current-continuation
-     (lambda (cont)
-       (bind-condition-handler
-        '()
-        (lambda (e)
-          (cont 
+                 (cons procedure operands) ;; catch
 
-             (cons procedure operands) ;; catch
+              )) ;; self-evaluate
+            (lambda () 
+                ;; try
+                (define (evaluate-list operands)
+                      (cond ((null? operands) '())
+                      ((null? (rest-operands operands))
+                       (list (eval (first-operand operands)
+                       calling-environment (- depth 1))))
+                      (else
+                       (cons (eval (first-operand operands)
+                       calling-environment depth)
+                       (evaluate-list (rest-operands operands))))))
+                    (apply-primitive-procedure procedure
+                      (evaluate-list operands) (- depth 1))
 
-          )) ;; self-evaluate
-        (lambda () 
-            ;; try
-            (define (evaluate-list operands)
-                  (cond ((null? operands) '())
-                  ((null? (rest-operands operands))
-                   (list (eval (first-operand operands)
-                   calling-environment depth)))
-                  (else
-                   (cons (eval (first-operand operands)
-                   calling-environment depth)
-                   (evaluate-list (rest-operands operands))))))
-                (apply-primitive-procedure procedure
-                  (evaluate-list operands) depth)
-
-          ))))
+              ))))
+        )
     )
   strict-primitive-procedure?)
 
 (defhandler apply
   (lambda (procedure operands calling-environment depth)
+    (if (= depth 0)
+        (cons procedure operands)
+        (call-with-current-continuation
+         (lambda (cont)
+           (bind-condition-handler
+            '()
+            (lambda (e)
+              (cont 
+                
+                (cons procedure operands) #| catch |#
 
-    (call-with-current-continuation
-     (lambda (cont)
-       (bind-condition-handler
-        '()
-        (lambda (e)
-          (cont 
-            
-            (cons procedure operands) #| catch |#
+                )) ;; self-evaluate
+            (lambda () 
+              ;; try
+              (if (not (= (length (procedure-parameters procedure))
+                    (length operands)))
+                  (error "Wrong number of operands supplied"))
+              (let ((arguments
+               (map (lambda (parameter operand)
+                (evaluate-procedure-operand parameter
+                          operand
+                          calling-environment
+                          depth))
+              (procedure-parameters procedure)
+              operands)))
+                (eval (procedure-body procedure)
+                  (extend-environment
+                   (map procedure-parameter-name
+                  (procedure-parameters procedure))
+                   arguments
+                   (procedure-environment procedure))
+                  (- depth 1)))
 
-            )) ;; self-evaluate
-        (lambda () 
-          ;; try
-          (if (not (= (length (procedure-parameters procedure))
-                (length operands)))
-              (error "Wrong number of operands supplied"))
-          (let ((arguments
-           (map (lambda (parameter operand)
-            (evaluate-procedure-operand parameter
-                      operand
-                      calling-environment
-                      depth))
-          (procedure-parameters procedure)
-          operands)))
-            (eval (procedure-body procedure)
-              (extend-environment
-               (map procedure-parameter-name
-              (procedure-parameters procedure))
-               arguments
-               (procedure-environment procedure))
-              depth))
-
-          ))))
+              )))))
 
     )
   compound-procedure?)

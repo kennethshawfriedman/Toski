@@ -1,4 +1,4 @@
-# Schemer
+# Toski
 A Prototype Debugging Tool for MIT Scheme
 
 ![Preview](https://github.com/kennethshawfriedman/Schemer/blob/master/Photos%20and%20Videos/schemer-preview.gif?raw=true)
@@ -25,6 +25,10 @@ Assuming you are on Mac running a modern version of MacOS (10.10 or higher), and
 You can download the fully built, GUI app here: [Schemer.app][release]
 
 [release]: https://github.com/kennethshawfriedman/Schemer/releases/latest
+
+## Naming
+
+
 
 ## Other
 

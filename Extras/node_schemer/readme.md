@@ -1,3 +1,6 @@
+## Node.js
+![Preview](https://github.com/kennethshawfriedman/Schemer/blob/master/Photos%20and%20Videos/node_schemer.gif?raw=true)
+
 ### Node Schemer:
  - Meteor: http://meteor.com
 

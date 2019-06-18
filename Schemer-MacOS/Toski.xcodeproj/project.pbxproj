@@ -19,7 +19,7 @@
 
 /* Begin PBXFileReference section */
 		B91188501EBC3FAB003506C4 /* SchemeComm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchemeComm.swift; sourceTree = "<group>"; };
-		B95F695B1EB94D8A0074C915 /* Schemer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Schemer.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B95F695B1EB94D8A0074C915 /* Toski.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Toski.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B95F695E1EB94D8A0074C915 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B95F69601EB94D8A0074C915 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		B95F69621EB94D8A0074C915 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -45,7 +45,7 @@
 		B95F69521EB94D890074C915 = {
 			isa = PBXGroup;
 			children = (
-				B95F695D1EB94D8A0074C915 /* Schemer */,
+				B95F695D1EB94D8A0074C915 /* Toski */,
 				B95F695C1EB94D8A0074C915 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -53,12 +53,12 @@
 		B95F695C1EB94D8A0074C915 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				B95F695B1EB94D8A0074C915 /* Schemer.app */,
+				B95F695B1EB94D8A0074C915 /* Toski.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		B95F695D1EB94D8A0074C915 /* Schemer */ = {
+		B95F695D1EB94D8A0074C915 /* Toski */ = {
 			isa = PBXGroup;
 			children = (
 				B9A322C622B9A6E800029728 /* Schemer.entitlements */,
@@ -72,15 +72,15 @@
 				B9C56FFA1EBEDD8A00876E1B /* SourceCodePro-Regular.ttf */,
 				B95F69671EB94D8A0074C915 /* Info.plist */,
 			);
-			path = Schemer;
+			path = Toski;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		B95F695A1EB94D8A0074C915 /* Schemer */ = {
+		B95F695A1EB94D8A0074C915 /* Toski */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = B95F696A1EB94D8A0074C915 /* Build configuration list for PBXNativeTarget "Schemer" */;
+			buildConfigurationList = B95F696A1EB94D8A0074C915 /* Build configuration list for PBXNativeTarget "Toski" */;
 			buildPhases = (
 				B95F69571EB94D8A0074C915 /* Sources */,
 				B95F69581EB94D8A0074C915 /* Frameworks */,
@@ -90,9 +90,9 @@
 			);
 			dependencies = (
 			);
-			name = Schemer;
+			name = Toski;
 			productName = Schemer;
-			productReference = B95F695B1EB94D8A0074C915 /* Schemer.app */;
+			productReference = B95F695B1EB94D8A0074C915 /* Toski.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -131,7 +131,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				B95F695A1EB94D8A0074C915 /* Schemer */,
+				B95F695A1EB94D8A0074C915 /* Toski */,
 			);
 		};
 /* End PBXProject section */
@@ -328,7 +328,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		B95F696A1EB94D8A0074C915 /* Build configuration list for PBXNativeTarget "Schemer" */ = {
+		B95F696A1EB94D8A0074C915 /* Build configuration list for PBXNativeTarget "Toski" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				B95F696B1EB94D8A0074C915 /* Debug */,

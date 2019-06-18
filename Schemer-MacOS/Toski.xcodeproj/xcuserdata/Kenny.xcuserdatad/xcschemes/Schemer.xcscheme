@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "B95F695A1EB94D8A0074C915"
-               BuildableName = "Schemer.app"
-               BlueprintName = "Schemer"
+               BuildableName = "Toski.app"
+               BlueprintName = "Toski"
                ReferencedContainer = "container:Toski.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -31,8 +31,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "B95F695A1EB94D8A0074C915"
-            BuildableName = "Schemer.app"
-            BlueprintName = "Schemer"
+            BuildableName = "Toski.app"
+            BlueprintName = "Toski"
             ReferencedContainer = "container:Toski.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -54,8 +54,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "B95F695A1EB94D8A0074C915"
-            BuildableName = "Schemer.app"
-            BlueprintName = "Schemer"
+            BuildableName = "Toski.app"
+            BlueprintName = "Toski"
             ReferencedContainer = "container:Toski.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -71,8 +71,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "B95F695A1EB94D8A0074C915"
-            BuildableName = "Schemer.app"
-            BlueprintName = "Schemer"
+            BuildableName = "Toski.app"
+            BlueprintName = "Toski"
             ReferencedContainer = "container:Toski.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

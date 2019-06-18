@@ -118,7 +118,7 @@
 					};
 				};
 			};
-			buildConfigurationList = B95F69561EB94D890074C915 /* Build configuration list for PBXProject "Schemer" */;
+			buildConfigurationList = B95F69561EB94D890074C915 /* Build configuration list for PBXProject "Toski" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -319,7 +319,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		B95F69561EB94D890074C915 /* Build configuration list for PBXProject "Schemer" */ = {
+		B95F69561EB94D890074C915 /* Build configuration list for PBXProject "Toski" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				B95F69681EB94D8A0074C915 /* Debug */,

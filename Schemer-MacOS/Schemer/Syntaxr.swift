@@ -23,15 +23,15 @@ class Syntaxr {
 				//we found the semicolon! Rest of line doesn't matter
 				let firstSubtring = line.substring(to: i)
 				let secondSubstring = line.substring(from: i)
-				let aFirst = NSAttributedString.init(string: firstSubtring, attributes: CodeField.stdAtrributes())
-				let aSecond = NSAttributedString.init(string: secondSubstring, attributes: [NSFontAttributeName: CodeField.standardFont(), NSForegroundColorAttributeName: NSColor.gray])
+				let aFirst = NSAttributedString.init(string: firstSubtring, attributes: convertToOptionalNSAttributedStringKeyDictionary(CodeField.stdAtrributes()))
+				let aSecond = NSAttributedString.init(string: secondSubstring, attributes: convertToOptionalNSAttributedStringKeyDictionary([convertFromNSAttributedStringKey(NSAttributedString.Key.font): CodeField.standardFont(), convertFromNSAttributedStringKey(NSAttributedString.Key.foregroundColor): NSColor.gray]))
 				let result:NSMutableAttributedString = NSMutableAttributedString()
 				result.append(aFirst)
 				result.append(aSecond)
 				return result
 			}
 		}
-		let aLine = NSAttributedString(string: line, attributes: CodeField.stdAtrributes())
+		let aLine = NSAttributedString(string: line, attributes: convertToOptionalNSAttributedStringKeyDictionary(CodeField.stdAtrributes()))
 		return aLine
 	}
 	
@@ -44,10 +44,21 @@ class Syntaxr {
 			let formattedLine = Syntaxr.highlightLine(line)
 			formattedText.append(formattedLine)
 			if (i != lines.count-1) { //append new line char, unless it's the last line
-				let aNewLine = NSAttributedString(string: "\n", attributes: CodeField.stdAtrributes())
+				let aNewLine = NSAttributedString(string: "\n", attributes: convertToOptionalNSAttributedStringKeyDictionary(CodeField.stdAtrributes()))
 				formattedText.append(aNewLine)
 			}
 		}
 		return formattedText
 	}
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToOptionalNSAttributedStringKeyDictionary(_ input: [String: Any]?) -> [NSAttributedString.Key: Any]? {
+	guard let input = input else { return nil }
+	return Dictionary(uniqueKeysWithValues: input.map { key, value in (NSAttributedString.Key(rawValue: key), value)})
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromNSAttributedStringKey(_ input: NSAttributedString.Key) -> String {
+	return input.rawValue
 }

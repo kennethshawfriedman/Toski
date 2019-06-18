@@ -40,7 +40,7 @@ class ViewController: NSViewController {
 		
 		outField.isEditable = false;
 		outField.font = CodeField.standardFont()
-		let tempStr = NSAttributedString(string: "", attributes: CodeField.stdAtrributes())
+		let tempStr = NSAttributedString(string: "", attributes: convertToOptionalNSAttributedStringKeyDictionary(CodeField.stdAtrributes()))
 		outField.textStorage?.setAttributedString(tempStr)
 		
 		//Setting Delegates
@@ -86,8 +86,8 @@ class ViewController: NSViewController {
 			//adding text back to the view requires you to be on the main thread, but this readabilityHandler is async
 			DispatchQueue.main.sync {
 				//add the proper font to the text, and append it to the codingfield (cf)
-				let fontAttribute = [NSFontAttributeName: CodeField.standardFont()]
-				let atString = NSAttributedString(string: newLine, attributes: fontAttribute)
+				let fontAttribute = [convertFromNSAttributedStringKey(NSAttributedString.Key.font): CodeField.standardFont()]
+				let atString = NSAttributedString(string: newLine, attributes: convertToOptionalNSAttributedStringKeyDictionary(fontAttribute))
 				
 				//KSF: the following two lines will insert the response at the cursor location
 				//let insertSpot = SchemeComm.locationOfCursor(codingField: self.cf)
@@ -107,13 +107,13 @@ class ViewController: NSViewController {
 					let regex  = "(preview-env)|(;Value .+: #\\[environment .+\\])|(;Package: \\(user\\))|(;Unspecified return value)|(\n)|(;Value: )"
 					processString.stringByRemovingRegexMatches(pattern: regex)
 
-					self.previewField.attributedStringValue = NSAttributedString(string: processString, attributes: CodeField.stdAtrributes())
+					self.previewField.attributedStringValue = NSAttributedString(string: processString, attributes: convertToOptionalNSAttributedStringKeyDictionary(CodeField.stdAtrributes()))
 					
 				} else {
 					//Not a preview: standard execution
 					self.outField.textStorage?.append(atString)
-					let strLength = self.outField.string?.characters.count
-					self.outField.scrollRangeToVisible(NSRange.init(location: strLength!, length: 0))
+					let strLength = self.outField.string.characters.count
+					self.outField.scrollRangeToVisible(NSRange.init(location: strLength, length: 0))
 				}
 			}
 		}
@@ -155,7 +155,7 @@ class ViewController: NSViewController {
 	}
 	
 	@IBAction func ExitNow(sender: AnyObject) {
-		NSApplication.shared().terminate(self)
+		NSApplication.shared.terminate(self)
 	}
 	
 	override func textStorageDidProcessEditing(_ notification: Notification) {
@@ -253,7 +253,7 @@ class CodeField : NSTextView {
 	}
 	
 	static func stdAtrributes() -> [String : Any] {
-		return [NSFontAttributeName: CodeField.standardFont()]
+		return [convertFromNSAttributedStringKey(NSAttributedString.Key.font): CodeField.standardFont()]
 	}
 	
 	static func stdFontSize() -> CGFloat {
@@ -273,7 +273,7 @@ class CodeField : NSTextView {
         var hit_char_index = initial_string.index(initial_string.startIndex, offsetBy:
             // for who-knows-why reasons, .charachterIndex() takes mouse in global coordinates,
             // so we use NSEvent.mouseLocation() to get it
-            self.characterIndex(for: NSEvent.mouseLocation()))
+            self.characterIndex(for: NSEvent.mouseLocation))
         
         // make sure we're not passed the end of the chars
         if hit_char_index == initial_string.endIndex {
@@ -319,7 +319,7 @@ class CodeField : NSTextView {
         
         // technique from https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/EventOverview/HandlingMouseEvents/HandlingMouseEvents.html#//apple_ref/doc/uid/10000060i-CH6-SW4
         while true {
-            let next_event = self.window!.nextEvent(matching: NSEventMask.leftMouseUp.union(.leftMouseDragged))!
+            let next_event = self.window!.nextEvent(matching: NSEvent.EventTypeMask.leftMouseUp.union(.leftMouseDragged))!
             switch next_event.type {
                 
             case .leftMouseDragged:
@@ -352,4 +352,15 @@ class CodeField : NSTextView {
         return NSMakeRange(start, length)
     }
     
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToOptionalNSAttributedStringKeyDictionary(_ input: [String: Any]?) -> [NSAttributedString.Key: Any]? {
+	guard let input = input else { return nil }
+	return Dictionary(uniqueKeysWithValues: input.map { key, value in (NSAttributedString.Key(rawValue: key), value)})
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromNSAttributedStringKey(_ input: NSAttributedString.Key) -> String {
+	return input.rawValue
 }

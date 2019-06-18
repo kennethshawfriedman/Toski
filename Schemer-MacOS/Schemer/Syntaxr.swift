@@ -21,9 +21,9 @@ class Syntaxr {
 				insideAQuote = !insideAQuote
 			} else if (char == ";" && !insideAQuote) {
 				//we found the semicolon! Rest of line doesn't matter
-				let firstSubtring = line.substring(to: i)
-				let secondSubstring = line.substring(from: i)
-				let aFirst = NSAttributedString.init(string: firstSubtring, attributes: convertToOptionalNSAttributedStringKeyDictionary(CodeField.stdAtrributes()))
+				let firstSubstring = String(line[..<i])
+				let secondSubstring = String(line[i...])
+				let aFirst = NSAttributedString.init(string: firstSubstring, attributes: convertToOptionalNSAttributedStringKeyDictionary(CodeField.stdAtrributes()))
 				let aSecond = NSAttributedString.init(string: secondSubstring, attributes: convertToOptionalNSAttributedStringKeyDictionary([convertFromNSAttributedStringKey(NSAttributedString.Key.font): CodeField.standardFont(), convertFromNSAttributedStringKey(NSAttributedString.Key.foregroundColor): NSColor.gray]))
 				let result:NSMutableAttributedString = NSMutableAttributedString()
 				result.append(aFirst)

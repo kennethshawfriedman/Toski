@@ -25,7 +25,8 @@ class SchemeComm {
 		//get curosor location:
 		let cursorLoc = SchemeComm.locationOfCursor(codingField: cf)
 		//grab all text before cursor location:
-		let codeBeforeCursor = currentText.substring(to: currentText.index(currentText.startIndex, offsetBy: cursorLoc))
+		let codeBeforeCursorRange = currentText.startIndex ..< currentText.index(currentText.startIndex, offsetBy: cursorLoc)
+		let codeBeforeCursor = String(currentText[codeBeforeCursorRange])
 		//find an executable command within the possible code before the cursor
 		let executableCommand = SchemeComm.findExecutableCommandInText(incoming: codeBeforeCursor)
 		result.append(executableCommand)
@@ -55,7 +56,7 @@ class SchemeComm {
 			if (parenCount == 0) {
 				indextoRevertBackTo = i+1
 				let beginSpot = incoming.index(incoming.endIndex, offsetBy: -indextoRevertBackTo)
-				let substringToReturn = incoming.substring(from: beginSpot)
+				let substringToReturn = String(incoming[beginSpot...])
 				return substringToReturn
 			} else if (parenCount < 0) {
 				print("Major Error: there is no command that will work!")

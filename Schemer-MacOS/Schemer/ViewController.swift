@@ -311,8 +311,14 @@ class CodeField : NSTextView {
             return
         }
 
-        let initial_text_range = Range.init(uncheckedBounds: (lower: start_index, upper: end_index))
-        let initial_number = Int(initial_string.substring(with: initial_text_range))!
+        //let initial_text_range = Range.init(uncheckedBounds: (lower: start_index, upper: end_index))
+		//let initial_number = Int(initial_string.substring(with: initial_text_range))!
+		let initial_text_range = start_index ..< end_index
+		let init_substring = initial_string[initial_text_range]
+		let init_regular_str = String(init_substring)
+		let initial_number = Int(init_regular_str)
+		
+		
 
         var range = NSRangeFromRange(range: initial_text_range)
         self.setSelectedRange(range)
@@ -324,7 +330,7 @@ class CodeField : NSTextView {
                 
             case .leftMouseDragged:
                 let deltaX = next_event.locationInWindow.x - start_location.x
-                let new_value = initial_number + Int(deltaX / 10)
+				let new_value = (initial_number ?? 0) + Int(deltaX / 10)
                 let strval = String(new_value)
                 self.insertText(strval, replacementRange: range)
 

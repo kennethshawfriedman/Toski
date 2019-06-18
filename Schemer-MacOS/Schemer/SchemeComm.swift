@@ -42,7 +42,7 @@ class SchemeComm {
 	}
 	
 	static func findExecutableCommandInText(incoming:String) -> String {
-		var chars = Array(incoming.characters)
+		var chars = Array(incoming)
 		chars.reverse()
 		var parenCount = 0 //to keep track of parentheses!
 		var indextoRevertBackTo = 0 //to keep track of where in substring should split
@@ -115,7 +115,7 @@ extension String {
 	mutating func stringByRemovingRegexMatches(pattern: String, replaceWith: String = "") {
 		do {
 			let regex = try NSRegularExpression(pattern: pattern, options: NSRegularExpression.Options.caseInsensitive)
-			let range = NSMakeRange(0, self.characters.count)
+			let range = NSMakeRange(0, self.count)
 			self = regex.stringByReplacingMatches(in: self, options: [], range: range, withTemplate: replaceWith)
 		} catch {
 			return

@@ -15,7 +15,7 @@ class Syntaxr {
 	static func highlightLine(_ line:String) -> NSAttributedString {
 		
 		var insideAQuote = false //are you inside a quote right now?
-		for i in line.characters.indices { //loop through each character
+		for i in line.indices { //loop through each character
 			let char = line[i]
 			if (char == "\"") { //if it's a quote, flip the boolean
 				insideAQuote = !insideAQuote

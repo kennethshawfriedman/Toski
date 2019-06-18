@@ -112,7 +112,7 @@ class ViewController: NSViewController {
 				} else {
 					//Not a preview: standard execution
 					self.outField.textStorage?.append(atString)
-					let strLength = self.outField.string.characters.count
+					let strLength = self.outField.string.count
 					self.outField.scrollRangeToVisible(NSRange.init(location: strLength, length: 0))
 				}
 			}
@@ -328,7 +328,7 @@ class CodeField : NSTextView {
                 let strval = String(new_value)
                 self.insertText(strval, replacementRange: range)
 
-                range.length = strval.characters.count
+                range.length = strval.count
                 self.setSelectedRange(range)
                 
             case .leftMouseUp:

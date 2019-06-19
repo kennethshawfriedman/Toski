@@ -1,7 +1,7 @@
 # Toski
 A Prototype Debugging Tool for MIT Scheme
 
-![Preview](https://github.com/kennethshawfriedman/Schemer/blob/master/Photos%20and%20Videos/schemer-preview.gif?raw=true)
+![Preview](https://github.com/kennethshawfriedman/Toski/blob/master/Extras/Photos%20and%20Videos/Screen%20Shot%202019-06-19%20at%203.58.52%20PM.png?raw=true)
 
 ## This repo contains:
 

@@ -208,9 +208,7 @@ extension ViewController: NSTextViewDelegate, NSTextStorageDelegate {
 		handleIn.write(enterPreEnv!)
 		handleIn.write(highlightData)
 		handleIn.write(exitPreEnv!)
-		
 
-		
 	}
 	
 	func textView(_ textView: NSTextView, shouldChangeTextInRanges affectedRanges: [NSValue], replacementStrings: [String]?) -> Bool {

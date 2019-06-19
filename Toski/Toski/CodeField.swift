@@ -9,12 +9,7 @@
 import Cocoa
 
 class CodeField : NSTextView {
-	/*
-	override func performKeyEquivalent(with event: NSEvent) -> Bool {
-	return true
-	}
-	*/
-	
+
 	required init?(coder: NSCoder) {
 		super.init(coder: coder)
 		
@@ -151,7 +146,6 @@ class CodeField : NSTextView {
 		let length = text.distance(from: r.lowerBound, to: r.upperBound)
 		return NSMakeRange(start, length)
 	}
-	
 }
 
 // Helper function inserted by Swift 4.2 migrator.

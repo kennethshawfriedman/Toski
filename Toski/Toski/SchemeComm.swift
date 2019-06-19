@@ -6,7 +6,7 @@
 //  Copyright © 2017 Kenneth Friedman. All rights reserved.
 //
 
-import Foundation
+import Cocoa
 
 //SchemeComm is used for Scheme Communication.
 //// All methods are static, so there is no need for instances
@@ -84,7 +84,26 @@ class SchemeHelper {
 		tempTask.arguments = [ "-l", "-c", "which \(mitScheme)"]
 		let pipe = Pipe()
 		tempTask.standardOutput = pipe
-		tempTask.launch()
+		print("trying")
+		
+		if #available(OSX 10.13, *) {
+			do {
+				try tempTask.run()
+			} catch {
+				let alert = NSAlert.init()
+				alert.messageText = "Can't access bin/bash/"
+				alert.informativeText = "Toksi can't find bin/bash. Contact developer for help!"
+				alert.addButton(withTitle: "OK")
+				alert.runModal()
+				return ""
+				
+			}
+		} else {
+			//prior to 10.13, you had to use .launch, which can't error handle.
+			//this should be removed ASAP, when 10.13 doesn't have to be supported
+			tempTask.launch()
+		}
+		
 		let data = pipe.fileHandleForReading.readDataToEndOfFile()
 		let output:String = String(data: data, encoding: String.Encoding.utf8) ?? "can't find mit-scheme location!"
 		let outTrimmed = output.trimmingCharacters(in: .whitespacesAndNewlines)

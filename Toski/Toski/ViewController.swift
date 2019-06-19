@@ -114,7 +114,23 @@ class ViewController: NSViewController {
 	
 	//When the viewcontroller appears, launch Scheme
 	override func viewDidAppear() {
-		task.launch()
+		
+		
+		if #available(OSX 10.13, *) {
+			do {
+				try task.run()
+			} catch {
+				let alert = NSAlert.init()
+				alert.messageText = "Can't access Scheme"
+				alert.informativeText = "Toksi can't find Scheme. Contact developer for help!"
+				alert.addButton(withTitle: "OK")
+				alert.runModal()
+			}
+			
+		} else {
+			task.launch()
+		}
+		
 		//textfield can be edited as soon as Scheme as been launched
 		cf.isEditable = true
 	}

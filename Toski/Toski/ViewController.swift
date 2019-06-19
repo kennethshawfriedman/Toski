@@ -115,6 +115,7 @@ class ViewController: NSViewController {
 	//When the viewcontroller appears, launch Scheme
 	override func viewDidAppear() {
 		task.launch()
+		//textfield can be edited as soon as Scheme as been launched
 		cf.isEditable = true
 	}
 	
@@ -208,15 +209,12 @@ extension ViewController: NSTextViewDelegate, NSTextStorageDelegate {
 		handleIn.write(enterPreEnv!)
 		handleIn.write(highlightData)
 		handleIn.write(exitPreEnv!)
-
 	}
 	
 	func textView(_ textView: NSTextView, shouldChangeTextInRanges affectedRanges: [NSValue], replacementStrings: [String]?) -> Bool {
 		return true
 	}
 }
-
-
 
 // Helper function inserted by Swift 4.2 migrator.
 fileprivate func convertToOptionalNSAttributedStringKeyDictionary(_ input: [String: Any]?) -> [NSAttributedString.Key: Any]? {

@@ -5,9 +5,7 @@ A Prototype Debugging Tool for MIT Scheme
 
 ## This repo contains:
 
-- SchemerForMacOS: The desktop IDE app project
-- Node Schemer: A Node.js site for editing a Scheme notebook
-- Playgrounds: just a few playgrounds for early prototyping of Mac-to-Scheme communication.
+- Toski: The desktop IDE app project
 - Extras: containing supplemental files & images (no code)
 
 ## Requirements:
@@ -27,10 +25,3 @@ You can download the fully built, GUI app here: [Schemer.app][release]
 [release]: https://github.com/kennethshawfriedman/Schemer/releases/latest
 
 ## Naming
-
-
-
-## Other
-
-#### MacOS Version Restrictions
-This app is written in Swift, so the lowest MacOS version possible is 10.9. However, it is currently set to a 10.10 minimum because of the use of a `viewDidLoad` method in an `NSViewController`. If anyone knows of a way to get the `viewDidLoad` functionality in 10.9 frameworks, let me know!

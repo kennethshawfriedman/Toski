@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		B91188511EBC3FAB003506C4 /* SchemeComm.swift in Sources */ = {isa = PBXBuildFile; fileRef = B91188501EBC3FAB003506C4 /* SchemeComm.swift */; };
+		B948769522BAB35400CB543F /* CodeField.swift in Sources */ = {isa = PBXBuildFile; fileRef = B948769422BAB35400CB543F /* CodeField.swift */; };
 		B95F695F1EB94D8A0074C915 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95F695E1EB94D8A0074C915 /* AppDelegate.swift */; };
 		B95F69611EB94D8A0074C915 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95F69601EB94D8A0074C915 /* ViewController.swift */; };
 		B95F69631EB94D8A0074C915 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B95F69621EB94D8A0074C915 /* Assets.xcassets */; };
@@ -19,6 +20,7 @@
 
 /* Begin PBXFileReference section */
 		B91188501EBC3FAB003506C4 /* SchemeComm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchemeComm.swift; sourceTree = "<group>"; };
+		B948769422BAB35400CB543F /* CodeField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeField.swift; sourceTree = "<group>"; };
 		B95F695B1EB94D8A0074C915 /* Toski.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Toski.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B95F695E1EB94D8A0074C915 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B95F69601EB94D8A0074C915 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -64,6 +66,7 @@
 				B9A322C622B9A6E800029728 /* Schemer.entitlements */,
 				B95F695E1EB94D8A0074C915 /* AppDelegate.swift */,
 				B95F69601EB94D8A0074C915 /* ViewController.swift */,
+				B948769422BAB35400CB543F /* CodeField.swift */,
 				B9D3A8EA1EC825BD003DA648 /* startup.scm */,
 				B9C56FFC1EC00F7200876E1B /* Syntaxr.swift */,
 				B91188501EBC3FAB003506C4 /* SchemeComm.swift */,
@@ -158,6 +161,7 @@
 				B95F69611EB94D8A0074C915 /* ViewController.swift in Sources */,
 				B9C56FFD1EC00F7200876E1B /* Syntaxr.swift in Sources */,
 				B91188511EBC3FAB003506C4 /* SchemeComm.swift in Sources */,
+				B948769522BAB35400CB543F /* CodeField.swift in Sources */,
 				B95F695F1EB94D8A0074C915 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

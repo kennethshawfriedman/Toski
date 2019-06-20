@@ -122,11 +122,10 @@ class ViewController: NSViewController {
 			} catch {
 				let alert = NSAlert.init()
 				alert.messageText = "Can't access Scheme"
-				alert.informativeText = "Toksi can't find Scheme. Contact developer for help!"
+				alert.informativeText = "Toksi can't find MIT Scheme.\nPlease install Scheme at https://www.gnu.org/software/mit-scheme/\nContact the developer if you still can't get it working."
 				alert.addButton(withTitle: "OK")
 				alert.runModal()
 			}
-			
 		} else {
 			task.launch()
 		}

@@ -91,7 +91,7 @@ class SchemeHelper {
 			} catch {
 				let alert = NSAlert.init()
 				alert.messageText = "Can't access bin/bash/"
-				alert.informativeText = "Toksi can't find bin/bash. Contact developer for help!"
+				alert.informativeText = "Toksi can't find bin/bash. Toski needs /bin/bash access to locate MIT Scheme. If you need help getting this to work, please contact the develoer for support."
 				alert.addButton(withTitle: "OK")
 				alert.runModal()
 				return ""

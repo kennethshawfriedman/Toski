@@ -13,6 +13,7 @@ class CodeField : NSTextView {
 	required init?(coder: NSCoder) {
 		super.init(coder: coder)
 		
+		//this forces a light mode... should support dark mode eventually
 		self.backgroundColor = .white
 		self.insertionPointColor = .black
 		self.font = CodeField.standardFont()

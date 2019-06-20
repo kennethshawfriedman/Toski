@@ -21,6 +21,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		
 		//Kills the Scheme Process
 		SchemeProcess.shared.terminate()
+		
 
 		print("Schemer Program Ended")
 	}

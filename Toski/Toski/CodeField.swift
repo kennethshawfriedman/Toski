@@ -13,6 +13,8 @@ class CodeField : NSTextView {
 	required init?(coder: NSCoder) {
 		super.init(coder: coder)
 		
+		self.backgroundColor = .white
+		self.insertionPointColor = .black
 		self.font = CodeField.standardFont()
 		self.isContinuousSpellCheckingEnabled = false
 		self.isAutomaticQuoteSubstitutionEnabled = false

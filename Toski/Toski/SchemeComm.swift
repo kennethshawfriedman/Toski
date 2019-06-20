@@ -68,8 +68,7 @@ class SchemeComm {
 	
 	static func previewExecution(_ input:String) {
 		
-	}
-	
+	}	
 }
 
 //This is class is just extra, rarely-called functions to help SchemeComm (SchemeComm should be handling most of the logic)

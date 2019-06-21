@@ -60,12 +60,11 @@ class ViewController: NSViewController {
 		handleIn = pipeIn.fileHandleForWriting
 		let outHandle = pipeOut.fileHandleForReading
 		
-		outHandle.readabilityHandler = self.readingPipe
-		
 		//The Results of a Scheme Execution come back from the REPL into this function:
-		
+		outHandle.readabilityHandler = self.readingPipe
 	}
 	
+	//The Results of a Scheme Execution come back from the REPL into this function:
 	func readingPipe(_ pipe:FileHandle) {
 		let inLine = String(data: pipe.availableData, encoding: .utf8)
 		guard let line = inLine else { return }
@@ -77,48 +76,51 @@ class ViewController: NSViewController {
 		newLine = newLine.replacingOccurrences(of: ";Unspecified return value", with: "")
 		newLine.stringByRemovingRegexMatches(pattern: "\\d+ error> ") //without espcape: \d+ error>
 		
-		//if you shouldn't prin the line, just return
+		//if you shouldn't print the line, just return
 		guard !self.warmingUp else { return }
 		
 		//adding text back to the view requires you to be on the main thread, but this readabilityHandler is async
 		DispatchQueue.main.sync {
-			//add the proper font to the text, and append it to the codingfield (cf)
-			let fontAtt = [NSAttributedString.Key.font : CodeField.standardFont()]
-			let atString = NSAttributedString.init(string: newLine, attributes: fontAtt)
+			self.addLineToOutField(newLine)
+		}
+	}
+	
+	func addLineToOutField(_ newLine:String) {
+		//add the proper font to the text, and append it to the codingfield (cf)
+		let fontAtt = [NSAttributedString.Key.font : CodeField.standardFont()]
+		let atString = NSAttributedString.init(string: newLine, attributes: fontAtt)
+		
+		//KSF: the following two lines will insert the response at the cursor location
+		//let insertSpot = SchemeComm.locationOfCursor(codingField: self.cf)
+		//self.cf.textStorage?.insert(atString, at: insertSpot)
+		
+		if (self.previewFlag) {
+			//preview execution here
+			self.previewField.alphaValue = 1.0
 			
-			//KSF: the following two lines will insert the response at the cursor location
-			//let insertSpot = SchemeComm.locationOfCursor(codingField: self.cf)
-			//self.cf.textStorage?.insert(atString, at: insertSpot)
+			let newResult = NSMutableAttributedString.init(attributedString: self.previewField.attributedStringValue)
+			newResult.append(atString)
 			
-			if (self.previewFlag) {
-				//preview execution here
-				self.previewField.alphaValue = 1.0
-				
-				let newResult = NSMutableAttributedString.init(attributedString: self.previewField.attributedStringValue)
-				newResult.append(atString)
-				
-				//try to prune uncessary things
-				var processString = newResult.string
-				
-				//REGEX processing:
-				let regex  = "(preview-env)|(;Value .+: #\\[environment .+\\])|(;Package: \\(user\\))|(;Unspecified return value)|(\n)|(;Value: )"
-				processString.stringByRemovingRegexMatches(pattern: regex)
-				
-				self.previewField.attributedStringValue = NSAttributedString(string: processString, attributes: CodeField.stdAtrributes())
-				
-			} else {
-				//Not a preview: standard execution
-				self.outField.textStorage?.append(atString)
-				let strLength = self.outField.string.count
-				self.outField.scrollRangeToVisible(NSRange.init(location: strLength, length: 0))
-			}
+			//try to prune uncessary things
+			var processString = newResult.string
+			
+			//REGEX processing:
+			let regex  = "(preview-env)|(;Value .+: #\\[environment .+\\])|(;Package: \\(user\\))|(;Unspecified return value)|(\n)|(;Value: )"
+			processString.stringByRemovingRegexMatches(pattern: regex)
+			
+			self.previewField.attributedStringValue = NSAttributedString(string: processString, attributes: CodeField.stdAtrributes())
+			
+		} else {
+			//Not a preview: standard execution
+			self.outField.textStorage?.append(atString)
+			let strLength = self.outField.string.count
+			self.outField.scrollRangeToVisible(NSRange.init(location: strLength, length: 0))
 		}
 	}
 	
 	//When the viewcontroller appears, launch Scheme
 	override func viewDidAppear() {
-		
-		
+
 		if #available(OSX 10.13, *) {
 			do {
 				try task.run()
@@ -150,7 +152,6 @@ class ViewController: NSViewController {
 			let character:String = event.characters ?? ""
 			handleKeyPressWithCommand(with: character)
 		}
-		
 	}
 	
 	func handleKeyPressWithCommand(with character:String) {
@@ -177,11 +178,6 @@ class ViewController: NSViewController {
 	
 	override func textStorageDidProcessEditing(_ notification: Notification) {
 		warmingUp = false
-		guard !backspace else { return }
-		let textStorage = notification.object as! NSTextStorage
-		let allText = textStorage.string
-		let formattedText = Syntaxr.highlightAllText(allText)
-		textStorage.setAttributedString(formattedText)
 	}
 }
 

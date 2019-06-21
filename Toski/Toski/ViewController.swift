@@ -60,54 +60,57 @@ class ViewController: NSViewController {
 		handleIn = pipeIn.fileHandleForWriting
 		let outHandle = pipeOut.fileHandleForReading
 		
+		outHandle.readabilityHandler = self.readingPipe
+		
 		//The Results of a Scheme Execution come back from the REPL into this function:
-		outHandle.readabilityHandler = { pipe in
+		
+	}
+	
+	func readingPipe(_ pipe:FileHandle) {
+		let inLine = String(data: pipe.availableData, encoding: .utf8)
+		guard let line = inLine else { return }
+		
+		print("\(line)", terminator: "")
+		
+		//No need to show the user the REPL input text: the input can be anywhere!
+		var newLine = line.replacingOccurrences(of: "1 ]=> ", with: "")
+		newLine = newLine.replacingOccurrences(of: ";Unspecified return value", with: "")
+		newLine.stringByRemovingRegexMatches(pattern: "\\d+ error> ") //without espcape: \d+ error>
+		
+		//if you shouldn't prin the line, just return
+		guard !self.warmingUp else { return }
+		
+		//adding text back to the view requires you to be on the main thread, but this readabilityHandler is async
+		DispatchQueue.main.sync {
+			//add the proper font to the text, and append it to the codingfield (cf)
+			let fontAtt = [NSAttributedString.Key.font : CodeField.standardFont()]
+			let atString = NSAttributedString.init(string: newLine, attributes: fontAtt)
 			
-			let inLine = String(data: pipe.availableData, encoding: .utf8)
-			guard let line = inLine else { return }
+			//KSF: the following two lines will insert the response at the cursor location
+			//let insertSpot = SchemeComm.locationOfCursor(codingField: self.cf)
+			//self.cf.textStorage?.insert(atString, at: insertSpot)
 			
-			print("\(line)", terminator: "")
-			
-			//No need to show the user the REPL input text: the input can be anywhere!
-			var newLine = line.replacingOccurrences(of: "1 ]=> ", with: "")
-			newLine = newLine.replacingOccurrences(of: ";Unspecified return value", with: "")
-			newLine.stringByRemovingRegexMatches(pattern: "\\d+ error> ") //without espcape: \d+ error>
-
-			//if you shouldn't prin the line, just return
-			guard !self.warmingUp else { return }
-			
-			//adding text back to the view requires you to be on the main thread, but this readabilityHandler is async
-			DispatchQueue.main.sync {
-				//add the proper font to the text, and append it to the codingfield (cf)
-				let fontAtt = [NSAttributedString.Key.font : CodeField.standardFont()]
-				let atString = NSAttributedString.init(string: newLine, attributes: fontAtt)
+			if (self.previewFlag) {
+				//preview execution here
+				self.previewField.alphaValue = 1.0
 				
-				//KSF: the following two lines will insert the response at the cursor location
-				//let insertSpot = SchemeComm.locationOfCursor(codingField: self.cf)
-				//self.cf.textStorage?.insert(atString, at: insertSpot)
+				let newResult = NSMutableAttributedString.init(attributedString: self.previewField.attributedStringValue)
+				newResult.append(atString)
 				
-				if (self.previewFlag) {
-					//preview execution here
-					self.previewField.alphaValue = 1.0
-					
-					let newResult = NSMutableAttributedString.init(attributedString: self.previewField.attributedStringValue)
-					newResult.append(atString)
-					
-					//try to prune uncessary things
-					var processString = newResult.string
-					
-					//REGEX processing:
-					let regex  = "(preview-env)|(;Value .+: #\\[environment .+\\])|(;Package: \\(user\\))|(;Unspecified return value)|(\n)|(;Value: )"
-					processString.stringByRemovingRegexMatches(pattern: regex)
-
-					self.previewField.attributedStringValue = NSAttributedString(string: processString, attributes: CodeField.stdAtrributes())
-					
-				} else {
-					//Not a preview: standard execution
-					self.outField.textStorage?.append(atString)
-					let strLength = self.outField.string.count
-					self.outField.scrollRangeToVisible(NSRange.init(location: strLength, length: 0))
-				}
+				//try to prune uncessary things
+				var processString = newResult.string
+				
+				//REGEX processing:
+				let regex  = "(preview-env)|(;Value .+: #\\[environment .+\\])|(;Package: \\(user\\))|(;Unspecified return value)|(\n)|(;Value: )"
+				processString.stringByRemovingRegexMatches(pattern: regex)
+				
+				self.previewField.attributedStringValue = NSAttributedString(string: processString, attributes: CodeField.stdAtrributes())
+				
+			} else {
+				//Not a preview: standard execution
+				self.outField.textStorage?.append(atString)
+				let strLength = self.outField.string.count
+				self.outField.scrollRangeToVisible(NSRange.init(location: strLength, length: 0))
 			}
 		}
 	}

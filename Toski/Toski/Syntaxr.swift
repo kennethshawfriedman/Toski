@@ -23,15 +23,15 @@ class Syntaxr {
 				//we found the semicolon! Rest of line doesn't matter
 				let firstSubstring = String(line[..<i])
 				let secondSubstring = String(line[i...])
-				let aFirst = NSAttributedString.init(string: firstSubstring, attributes: convertToOptionalNSAttributedStringKeyDictionary(CodeField.stdAtrributes()))
-				let aSecond = NSAttributedString.init(string: secondSubstring, attributes: convertToOptionalNSAttributedStringKeyDictionary([convertFromNSAttributedStringKey(NSAttributedString.Key.font): CodeField.standardFont(), convertFromNSAttributedStringKey(NSAttributedString.Key.foregroundColor): NSColor.gray]))
+				let aFirst = NSAttributedString.init(string: firstSubstring, attributes: CodeField.stdAtrributes())
+				let aSecond = NSAttributedString.init(string: secondSubstring, attributes: [NSAttributedString.Key.font: CodeField.standardFont(), NSAttributedString.Key.foregroundColor : NSColor.gray])
 				let result:NSMutableAttributedString = NSMutableAttributedString()
 				result.append(aFirst)
 				result.append(aSecond)
 				return result
 			}
 		}
-		let aLine = NSAttributedString(string: line, attributes: convertToOptionalNSAttributedStringKeyDictionary(CodeField.stdAtrributes()))
+		let aLine = NSAttributedString(string: line, attributes: CodeField.stdAtrributes())
 		return aLine
 	}
 	
@@ -44,7 +44,7 @@ class Syntaxr {
 			let formattedLine = Syntaxr.highlightLine(line)
 			formattedText.append(formattedLine)
 			if (i != lines.count-1) { //append new line char, unless it's the last line
-				let aNewLine = NSAttributedString(string: "\n", attributes: convertToOptionalNSAttributedStringKeyDictionary(CodeField.stdAtrributes()))
+				let aNewLine = NSAttributedString(string: "\n", attributes: CodeField.stdAtrributes())
 				formattedText.append(aNewLine)
 			}
 		}

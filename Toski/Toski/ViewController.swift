@@ -33,7 +33,7 @@ class ViewController: NSViewController {
 		
 		outField.isEditable = false;
 		outField.font = CodeField.standardFont()
-		let tempStr = NSAttributedString(string: "", attributes: convertToOptionalNSAttributedStringKeyDictionary(CodeField.stdAtrributes()))
+		let tempStr = NSAttributedString(string: "", attributes: CodeField.stdAtrributes())
 		outField.textStorage?.setAttributedString(tempStr)
 		
 		//Setting Delegates
@@ -79,8 +79,8 @@ class ViewController: NSViewController {
 			//adding text back to the view requires you to be on the main thread, but this readabilityHandler is async
 			DispatchQueue.main.sync {
 				//add the proper font to the text, and append it to the codingfield (cf)
-				let fontAttribute = [convertFromNSAttributedStringKey(NSAttributedString.Key.font): CodeField.standardFont()]
-				let atString = NSAttributedString(string: newLine, attributes: convertToOptionalNSAttributedStringKeyDictionary(fontAttribute))
+				let fontAtt = [NSAttributedString.Key.font : CodeField.standardFont()]
+				let atString = NSAttributedString.init(string: newLine, attributes: fontAtt)
 				
 				//KSF: the following two lines will insert the response at the cursor location
 				//let insertSpot = SchemeComm.locationOfCursor(codingField: self.cf)
@@ -100,7 +100,7 @@ class ViewController: NSViewController {
 					let regex  = "(preview-env)|(;Value .+: #\\[environment .+\\])|(;Package: \\(user\\))|(;Unspecified return value)|(\n)|(;Value: )"
 					processString.stringByRemovingRegexMatches(pattern: regex)
 
-					self.previewField.attributedStringValue = NSAttributedString(string: processString, attributes: convertToOptionalNSAttributedStringKeyDictionary(CodeField.stdAtrributes()))
+					self.previewField.attributedStringValue = NSAttributedString(string: processString, attributes: CodeField.stdAtrributes())
 					
 				} else {
 					//Not a preview: standard execution
@@ -137,17 +137,22 @@ class ViewController: NSViewController {
 	//called on every key-stroke of non-modifier keys
 	override func keyDown(with event: NSEvent) {
 		
+		//not sure if this super call is needed. Didn't seem to hurt or help, but seems like it should be there
+		super.keyDown(with: event)
+		
 		backspace = event.characters == "\u{7F}" //backspace is true if it was the backspace key
 		//Check if the command key is pressed, if it is: send to other function to handle
 		let commandKey:Bool = event.modifierFlags.contains(.command)
 		if (commandKey) {
-			handleKeyPressWithCommand(from: event)
+			let character:String = event.characters ?? ""
+			handleKeyPressWithCommand(with: character)
 		}
+		
 	}
 	
-	func handleKeyPressWithCommand(from event:NSEvent) {
+	func handleKeyPressWithCommand(with character:String) {
 		
-		let character:String = event.characters ?? ""
+		print(character)
 		switch character {
 			case "\r":	//this handles Cmd+enter
 				executeCommand()
@@ -174,7 +179,6 @@ class ViewController: NSViewController {
 		let allText = textStorage.string
 		let formattedText = Syntaxr.highlightAllText(allText)
 		textStorage.setAttributedString(formattedText)
-		
 	}
 }
 
@@ -229,15 +233,4 @@ extension ViewController: NSTextViewDelegate, NSTextStorageDelegate {
 	func textView(_ textView: NSTextView, shouldChangeTextInRanges affectedRanges: [NSValue], replacementStrings: [String]?) -> Bool {
 		return true
 	}
-}
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertToOptionalNSAttributedStringKeyDictionary(_ input: [String: Any]?) -> [NSAttributedString.Key: Any]? {
-	guard let input = input else { return nil }
-	return Dictionary(uniqueKeysWithValues: input.map { key, value in (NSAttributedString.Key(rawValue: key), value)})
-}
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertFromNSAttributedStringKey(_ input: NSAttributedString.Key) -> String {
-	return input.rawValue
 }

@@ -58,6 +58,12 @@ class CodeField : NSTextView {
 		let length = text.distance(from: r.lowerBound, to: r.upperBound)
 		return NSMakeRange(start, length)
 	}
+	
+	//This function prevents the "error bell" sound from occuring on every keystroke
+	//This was first noticed in Toksi issue #4: https://github.com/kennethshawfriedman/Toski/issues/4
+	override func performKeyEquivalent(with event: NSEvent) -> Bool {
+		return true
+	}
 }
 
 // Helper function inserted by Swift 4.2 migrator.

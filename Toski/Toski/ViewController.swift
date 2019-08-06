@@ -39,12 +39,7 @@ class ViewController: NSViewController {
 		//Setting Delegates
 		cf.delegate = self
 		cf.textStorage?.delegate = self
-		
-		//watch for keydown
-		NSEvent.addLocalMonitorForEvents(matching: .keyDown) {
-			self.keyDown(with: $0)
-			return $0
-		}
+		cf.parentVC = self
 		
 		//task.launchPath = "/usr/local/bin/mit-scheme"	//this should eventually be detirmined per-machine (which is working in one of the playgrounds)
 		//The launchpath on my machine is "/usr/local/bin/mit-scheme", but if this is different on someone else's computer, i
@@ -62,6 +57,9 @@ class ViewController: NSViewController {
 		
 		//The Results of a Scheme Execution come back from the REPL into this function:
 		outHandle.readabilityHandler = self.readingPipe
+		
+		//notification to observe when someone pressed Cmd+Enter
+		NotificationCenter.default.addObserver(self, selector: #selector(executeCommand), name: NSNotification.Name(rawValue: "executeCommand"), object: nil)
 	}
 	
 	//The Results of a Scheme Execution come back from the REPL into this function:
@@ -138,36 +136,10 @@ class ViewController: NSViewController {
 		//textfield can be edited as soon as Scheme as been launched
 		cf.isEditable = true
 	}
-	
-	//called on every key-stroke of non-modifier keys
-	override func keyDown(with event: NSEvent) {
 		
-		//not sure if this super call is needed. Didn't seem to hurt or help, but seems like it should be there
-		super.keyDown(with: event)
-		
-		backspace = event.characters == "\u{7F}" //backspace is true if it was the backspace key
-		//Check if the command key is pressed, if it is: send to other function to handle
-		let commandKey:Bool = event.modifierFlags.contains(.command)
-		if (commandKey) {
-			let character:String = event.characters ?? ""
-			handleKeyPressWithCommand(with: character)
-		}
-	}
-	
-	func handleKeyPressWithCommand(with character:String) {
-		
-		print(character)
-		switch character {
-			case "\r":	//this handles Cmd+enter
-				executeCommand()
-				break
-			default:
-				break
-		}
-	}
-	
 	//This function is called on Cmd+Enter: it executes a call to Scheme Communication
-	func executeCommand() {
+	@objc func executeCommand() {
+		print("execute")
 		let dataToSubmit = SchemeComm.parseExecutionCommand(codingField: cf)
 		handleIn.write(dataToSubmit)
 	}

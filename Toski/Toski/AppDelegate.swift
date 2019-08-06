@@ -11,18 +11,13 @@ import Cocoa
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 
-	func applicationDidFinishLaunching(_ aNotification: Notification) {
-		// Insert code here to initialize your application
+	@IBAction func executeCommand(_ sender: Any) {
+		NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "executeCommand"), object: nil)
 	}
-
-	@IBAction func executeCommand(_ sender: Any) {}
 	
 	func applicationWillTerminate(_ aNotification: Notification) {
-		
 		//Kills the Scheme Process
 		SchemeProcess.shared.terminate()
-		
-
-		print("Schemer Program Ended")
+		print("Toski ended")
 	}
 }
